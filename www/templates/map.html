@@ -1,0 +1,153 @@
+<ion-view view-title="Đặt xe" name="map-view">
+  <ion-content class="map-view" ion-content scroll="false" no-bounce>
+    <div id="map" data-tap-disabled="true"></div>
+
+    <form class="trip-add trip-filter padding" id="pac-sidebar">
+        <div class="form-group">
+            <div class="form-label no-padding control-label">
+                Tên *
+            </div>
+            <div class="form-field no-padding-right">
+                <input class="form-control" type="text" name="name" id="name" placeholder="Tên"/>
+  			</div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-label no-padding control-label">
+                Sđt *
+            </div>
+            <div class="form-field no-padding-right">
+  				<input class="form-control" type="text" name="phone" id="phone" placeholder="Số điện thoại"/>
+  			</div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="divide"></div>
+
+  		<div class="form-group">
+            <div class="form-label no-padding control-label">
+                Số chỗ *
+            </div>
+            <div class="form-field no-padding-right">
+  				<select id="seat" name="seat" class="form-control" ng-model="data.seat">
+                    <option value="4" selected>4</option>
+                    <option value="7">7</option>
+                    <option value="16">16</option>
+  				</select>
+  			</div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-label no-padding control-label">
+                Từ
+            </div>
+            <div class="form-field no-padding-right">
+  				<input id="pac-from" type="text" name="from" class="form-control" placeholder="Điểm đi" ng-model="data.from"/>
+  			</div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-label no-padding control-label">
+                Đến *
+            </div>
+            <div class="form-field no-padding-right">
+  				<input id="pac-to" class="form-control" type="text" name="to" placeholder="Điểm đến" ng-model="data.to"/>
+  			</div>
+  			<div class="clearfix"></div>
+  		</div>
+
+        <div class="form-group">
+            <div class="form-label no-padding control-label">
+                Số khách *
+            </div>
+            <div class="form-field no-padding-right">
+          		<input class="form-control" type="number" min="1" name="guess_num" id="guess_num" placeholder="Số khách" ng-model="data.guess_num"/>
+          	</div>
+          	<div class="clearfix"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-label no-padding control-label">
+                Thời gian *
+            </div>
+            <div class="form-field no-padding-right">
+          		<input class="form-control" type="text" name="time" id="time" placeholder="Thời gian"/>
+          	</div>
+          	<div class="clearfix"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-label no-padding control-label">
+                2 chiều *
+            </div>
+            <div class="form-field no-padding-right">
+                <select id="is_round" name="is_round" class="form-control">
+                    <option value="0" selected>1 chiều</option>
+                    <option value="1">2 chiều</option>
+  				</select>
+          	</div>
+          	<div class="clearfix"></div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="form-label no-padding control-label">
+                PNR
+            </div>
+            <div class="form-field no-padding-right">
+          		<input class="form-control" type="text" name="PNR" id="PNR" placeholder="Mã PNR"/>
+          	</div>
+          	<div class="clearfix"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-label no-padding control-label">
+                Ghi chú
+            </div>
+            <div class="form-field no-padding-right">
+          		<textarea class="form-control" name="details" id="details" placeholder="Ghi chú"></textarea>
+          	</div>
+          	<div class="clearfix"></div>
+        </div>
+
+  		<div class="add-form-submit center">
+  			<input class="button button-small button-assertive" type="reset" value="Reset"/>
+            <button class="button button-small button-assertive" ng-click="request()">Request a TAXI</button>
+  		</div>
+	</form>
+
+    <div class="trip-info">
+    	<div id="floating-panel">
+    		<div class="form-group">
+    			<div class="col-lg-1 control-label no-padding">From</div>
+    			<div class="col-lg-11 no-padding-right">
+    				<input id="start" type="text" name="from" readonly class="form-control"/>
+    			</div>
+    			<div class="clearfix"></div>
+    		</div>
+    		<div class="form-group">
+    			<div class="col-lg-1 control-label no-padding">To</div>
+    			<div class="col-lg-11 no-padding-right">
+    				<input id="end" class="form-control" type="text" name="to" readonly>
+    			</div>
+    			<div class="clearfix"></div>
+    		</div>
+    	</div>
+    	<select id="travelMode" class="hide">
+    		<option value="DRIVING" selected>DRIVING</option>
+    	</select>
+    	<div id="warnings-panel"></div>
+
+    	<div id="box-search-one-route">
+    		<span id="box-search-one-distance"></span>
+    		 |
+    		<span id="box-search-one-time"></span>
+    	</div>
+
+    </div> <!-- .trip-info -->
+
+  </ion-content>
+</ion-view>
