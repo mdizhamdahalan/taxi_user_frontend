@@ -241,7 +241,7 @@ angular.module('starter.controllers', [])
 
     var latLng = new google.maps.LatLng(21.033, 105.85);
     var mapOptions = {
-      zoom: 12,
+      zoom: 10,
       center: latLng,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
