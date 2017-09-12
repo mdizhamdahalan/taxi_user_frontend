@@ -238,51 +238,71 @@ angular.module('starter.controllers', [])
             $scope.getDirection(map, place.geometry.location);
     }
 
+    var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
 
-    var latLng = new google.maps.LatLng(21.033, 105.85);
     var mapOptions = {
-      zoom: 15,
-      center: latLng,
+      center: myLatlng,
+      zoom: 16,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    var map = new google.maps.Map(document.getElementById("map"),
+        mapOptions);
 
-    google.maps.event.addListenerOnce($scope.map, 'idle', function() {
-        var marker = markerArray[0] = new google.maps.Marker({
-            map: $scope.map,
-            position: latLng,
-            animation: google.maps.Animation.DROP
+    $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
+        var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        console.log(position.coords.latitude);
+        console.log(position.coords.longitude);
+
+        var mapOptions = {
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            center: latLng
+        };
+
+        $scope.map = new google.maps.Map(document.getElementById("map"));
+
+        //Wait until the map is loaded
+        google.maps.event.addListenerOnce($scope.map, 'idle', function() {
+            var marker = markerArray[0] = new google.maps.Marker({
+                map: $scope.map,
+                position: latLng,
+                animation: google.maps.Animation.DROP
+            });
+
+            /*var infoWindow = new google.maps.InfoWindow({
+                content: "Here I am!"
+            });
+
+            google.maps.event.addListener(marker, 'click', function () {
+                infoWindow.open($scope.map, marker);
+            });*/
+
+
+            var sidebar = document.getElementById('pac-sidebar');
+            var from = document.getElementById('pac-from');
+            var to = document.getElementById('pac-to');
+            $scope.map.controls[google.maps.ControlPosition.LEFT].push(sidebar);
+
+            var autocomplete_from = new google.maps.places.Autocomplete(from);
+            var autocomplete_to = new google.maps.places.Autocomplete(to);
+            autocomplete_from.bindTo('bounds', $scope.map);
+            autocomplete_to.bindTo('bounds', $scope.map);
+
+
+            var infowindow = new google.maps.InfoWindow();
+
+            autocomplete_to.addListener('place_changed', function() {
+                $scope.map_select($scope.map, autocomplete_to, infowindow, 1);
+            });
+            autocomplete_from.addListener('place_changed', function() {
+                $scope.map_select($scope.map, autocomplete_from, infowindow, 0);
+            });
+
         });
 
-        /*var infoWindow = new google.maps.InfoWindow({
-            content: "Here I am!"
-        });
-
-        google.maps.event.addListener(marker, 'click', function () {
-            infoWindow.open($scope.map, marker);
-        });*/
-
-
-        var sidebar = document.getElementById('pac-sidebar');
-        var from = document.getElementById('pac-from');
-        var to = document.getElementById('pac-to');
-        $scope.map.controls[google.maps.ControlPosition.LEFT].push(sidebar);
-
-        var autocomplete_from = new google.maps.places.Autocomplete(from);
-        var autocomplete_to = new google.maps.places.Autocomplete(to);
-        autocomplete_from.bindTo('bounds', $scope.map);
-        autocomplete_to.bindTo('bounds', $scope.map);
-
-
-        var infowindow = new google.maps.InfoWindow();
-
-        autocomplete_to.addListener('place_changed', function() {
-            $scope.map_select($scope.map, autocomplete_to, infowindow, 1);
-        });
-        autocomplete_from.addListener('place_changed', function() {
-            $scope.map_select($scope.map, autocomplete_from, infowindow, 0);
-        });
-
+    }, function(error) {
+        console.log("Could not get location");
+        console.log(error);
     });
 
 })
