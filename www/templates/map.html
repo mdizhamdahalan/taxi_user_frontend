@@ -4,113 +4,53 @@
 
     <form class="trip-add trip-filter padding" id="pac-sidebar">
         <div class="form-group">
-            <div class="form-label no-padding control-label">
-                Tên *
-            </div>
-            <div class="form-field no-padding-right">
-                <input class="form-control" type="text" name="name" id="name" placeholder="Tên"/>
-  			</div>
-            <div class="clearfix"></div>
+                <input class="form-control" type="text" name="name" id="name" placeholder="Tên *"/>
         </div>
 
         <div class="form-group">
-            <div class="form-label no-padding control-label">
-                Sđt *
-            </div>
-            <div class="form-field no-padding-right">
-  				<input class="form-control" type="text" name="phone" id="phone" placeholder="Số điện thoại"/>
-  			</div>
-            <div class="clearfix"></div>
+  				<input class="form-control" type="text" name="phone" id="phone" placeholder="Số điện thoại *"/>
         </div>
 
         <div class="divide"></div>
 
   		<div class="form-group">
-            <div class="form-label no-padding control-label">
-                Số chỗ *
-            </div>
-            <div class="form-field no-padding-right">
-  				<select id="seat" name="seat" class="form-control" ng-model="data.seat">
-                    <option value="4" selected>4</option>
-                    <option value="7">7</option>
-                    <option value="16">16</option>
+  				<select id="seat" name="seat" class="form-control" placeholder="Số chỗ *">
+                    <option value="4">4 chỗ</option>
+                    <option value="7">7 chỗ</option>
+                    <option value="16">16 chỗ</option>
   				</select>
-  			</div>
-            <div class="clearfix"></div>
         </div>
 
         <div class="form-group">
-            <div class="form-label no-padding control-label">
-                Từ
-            </div>
-            <div class="form-field no-padding-right">
-  				<input id="pac-from" type="text" name="from" class="form-control" placeholder="Điểm đi" ng-model="data.from"/>
-  			</div>
-            <div class="clearfix"></div>
+  				<input id="pac-from" type="text" name="from" class="form-control" placeholder="Điểm đi *"/>
         </div>
 
         <div class="form-group">
-            <div class="form-label no-padding control-label">
-                Đến *
-            </div>
-            <div class="form-field no-padding-right">
-  				<input id="pac-to" class="form-control" type="text" name="to" placeholder="Điểm đến" ng-model="data.to"/>
-  			</div>
-  			<div class="clearfix"></div>
+  				<input id="pac-to" class="form-control" type="text" name="to" placeholder="Điểm đến *"/>
   		</div>
 
         <div class="form-group">
-            <div class="form-label no-padding control-label">
-                Số khách *
-            </div>
-            <div class="form-field no-padding-right">
-          		<input class="form-control" type="number" min="1" name="guess_num" id="guess_num" placeholder="Số khách" ng-model="data.guess_num"/>
-          	</div>
-          	<div class="clearfix"></div>
+          		<input class="form-control" type="number" min="1" name="guess_num" id="guess_num" placeholder="Số khách *"/>
         </div>
 
         <div class="form-group">
-            <div class="form-label no-padding control-label">
-                Thời gian *
-            </div>
-            <div class="form-field no-padding-right">
-          		<input class="form-control" type="text" name="time" id="time" placeholder="Thời gian"/>
-          	</div>
-          	<div class="clearfix"></div>
+          		<input class="form-control" type="text" name="time" id="time" placeholder="Thời gian *"/>
         </div>
 
         <div class="form-group">
-            <div class="form-label no-padding control-label">
-                2 chiều *
-            </div>
-            <div class="form-field no-padding-right">
                 <select id="is_round" name="is_round" class="form-control">
                     <option value="0" selected>1 chiều</option>
                     <option value="1">2 chiều</option>
   				</select>
-          	</div>
-          	<div class="clearfix"></div>
         </div>
 
 
         <div class="form-group">
-            <div class="form-label no-padding control-label">
-                PNR
-            </div>
-            <div class="form-field no-padding-right">
           		<input class="form-control" type="text" name="PNR" id="PNR" placeholder="Mã PNR"/>
-          	</div>
-          	<div class="clearfix"></div>
         </div>
 
         <div class="form-group">
-            <div class="form-label no-padding control-label">
-                Ghi chú
-            </div>
-            <div class="form-field no-padding-right">
           		<textarea class="form-control" name="details" id="details" placeholder="Ghi chú"></textarea>
-          	</div>
-          	<div class="clearfix"></div>
         </div>
 
   		<div class="add-form-submit center">
