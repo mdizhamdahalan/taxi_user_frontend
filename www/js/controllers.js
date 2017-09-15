@@ -1,12 +1,19 @@
 angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicSideMenuDelegate, $state, $ionicHistory, $rootScope, $timeout, $ionicLoading, $location) {
-    $scope.userData = userData = JSON.parse(window.localStorage.getItem("session"));
+    $scope.userData = userData = JSON.parse(window.localStorage.getItem("session_user"));
+    if (!userData) {
+        $ionicLoading.hide();
+        $state.go('tab.map');
+        return false;
+    } else {
+        // kill this session every 2 seconds
+    }
 })
 
-.controller('TripsCtrl', function($scope, $state, TripService, $ionicPopup, $interval, $timeout, $ionicNavBarDelegate, $ionicLoading) {
+.controller('TripsCtrl', function($scope, $state, TripsService, $ionicPopup, $interval, $timeout, $ionicNavBarDelegate, $ionicLoading, $location, $rootScope) {
     $ionicNavBarDelegate.showBackButton(false);
-    $scope.userData = userData = JSON.parse(window.localStorage.getItem("session"));
+    $scope.userData = userData = JSON.parse(window.localStorage.getItem("session_user"));
 
     $ionicLoading.show({
         content: 'Loading',
@@ -15,19 +22,60 @@ angular.module('starter.controllers', [])
         maxWidth: 200,
         showDelay: 0
     });
-    TripService.getAll(userData.id).then(function(response) {
-        $timeout(function() {
-            $scope.trips = response; //Assign data received to $scope.data
-            $ionicLoading.hide();
-        }, 1000);
+
+    $scope.check = function () {
+        TripsService.countAll(userData.phone).then(function(num) {
+            var trips_num = window.localStorage.getItem('trips_num');
+            console.log(num+' ~ '+trips_num);
+            if (num != trips_num) $scope.refreshItems();
+        })
+    }
+
+    $scope.theInterval = null;
+
+    $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+    	if ($location.path() == "/tab/trips") {
+            $scope.theInterval = $interval(function(){
+                $scope.check();
+            }.bind(this), 1000);
+            $scope.$on('$destroy', function () {
+                $interval.cancel($scope.theInterval)
+            });
+
+            $scope.refreshItems();
+        }
     });
+
+    $scope.refreshItems = function () {
+        if (userData) {
+            $ionicLoading.show({
+                content: 'Loading',
+                animation: 'fade-in',
+                showBackdrop: true,
+                maxWidth: 200,
+                showDelay: 0
+            });
+
+            TripsService.getAll(userData.phone).then(function(response) {
+                console.log('hehe');
+                console.log(response);
+                var trips_num = response.total;
+                window.localStorage.setItem('trips_num', trips_num);
+
+                $scope.trips = response.data;
+
+                $ionicLoading.hide();
+            });
+        }
+    }
+
     $scope.view = function(tripID) {
         $state.go('tab.trips.view', {tripID: tripID});
     }
 })
-.controller('TripsViewCtrl', function($scope, $state, $stateParams, TripService, $ionicPopup, $interval, $ionicNavBarDelegate, $ionicLoading, $timeout) {
+.controller('TripsViewCtrl', function($scope, $state, $stateParams, TripsService, $ionicPopup, $interval, $ionicNavBarDelegate, $ionicLoading, $timeout) {
     $ionicNavBarDelegate.showBackButton(true);
-    $scope.userData = userData = JSON.parse(window.localStorage.getItem("session"));
+    $scope.userData = userData = JSON.parse(window.localStorage.getItem("session_user"));
 
     $ionicLoading.show({
         content: 'Loading',
@@ -36,17 +84,140 @@ angular.module('starter.controllers', [])
         maxWidth: 200,
         showDelay: 0
     });
-    TripService.getOne($scope.hID).then(function(response) {
+
+    $scope.tripID = $stateParams.tripID;
+    $scope.trip = {};
+
+    TripsService.getOne($scope.tripID).then(function(response) {
         $timeout(function() {
+            console.log(response);
+            console.log('~~~');
+            $scope.trip = response;
+
+            if (response.is_round == 0) {
+                document.getElementsByTagName("notround")[0].classList.remove("ng-hide");
+                document.getElementsByTagName("round")[0].classList.add("ng-hide");
+            } else {
+                document.getElementsByTagName("round")[0].classList.remove("ng-hide");
+                document.getElementsByTagName("notround")[0].classList.add("ng-hide");
+            }
             $scope.trip = response; //Assign data received to $scope.data
+
             $ionicLoading.hide();
-        }, 1000);
+        }, 100);
     });
 })
 
-.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $timeout, RequestService, $ionicPopup) {
+.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $timeout, RequestService, $ionicPopup, ionicTimePicker, ionicDatePicker) {
     var options = {timeout: 10000, enableHighAccuracy: true};
     markerArray = [];
+
+    var timePickerObj = {
+        callback: function (val) {      //Mandatory
+            if (typeof (val) === 'undefined') {
+                console.log('Time not selected');
+            } else {
+                var selectedTime = new Date(val * 1000);
+                var min = selectedTime.getUTCMinutes();
+                if (min < 10) min = '0'+min;
+                document.getElementById('time_time').value = selectedTime.getUTCHours()+':'+min;
+            }
+        },
+        inputTime: 50400,   //Optional
+        format: 12,         //Optional
+        step: 5,           //Optional
+        closeLabel: 'Đóng',
+        setLabel: 'Đặt'    //Optional
+    };
+    $scope.openTimePicker = function () {
+        ionicTimePicker.openTimePicker(timePickerObj);
+    }
+
+
+    var datePickerObj = {
+        callback: function (val) {  //Mandatory
+            var date = new Date(val);
+            console.log(date);
+            var month = date.getMonth()+1;
+            var day = date.getDate();
+            if (month < 10) month = '0'+month;
+            if (day < 10) day = '0'+day;
+            document.getElementById('time_date').value = date.getFullYear()+'-'+month+'-'+day;
+        },
+        from: new Date(), //Optional
+        to: new Date(2018, 12, 31), //Optional
+        inputDate: new Date(),      //Optional
+        dateFormat: 'yyyy-mm-dd',
+        closeLabel: 'Đóng',
+        setLabel: 'Đặt',    //Optional
+        templateType: 'popup'       //Optional
+    };
+
+    $scope.openDatePicker = function(){
+        ionicDatePicker.openDatePicker(datePickerObj);
+    };
+
+    $scope.select_seat = function (seat) {
+        var sones = document.getElementsByClassName('sone');
+        document.getElementById('seat').value = seat;
+        for (i = 0; i < sones.length; i++) {
+            sones[i].classList.remove('active');
+            if (sones[i].id == 'seat'+seat) {
+                sones[i].classList.add('active');
+            }
+        }
+    }
+
+    $scope.goback = function () {
+        detailsForm = document.getElementById('trip-user-details');
+        detailsForm.classList.remove('active');
+    }
+
+    $scope.request_first = function () {
+        from = document.getElementById('start').value;
+        to = document.getElementById('end').value;
+        seat = document.getElementById('seat').value;
+        distance = document.getElementById('box-search-one-distance').innerHTML;
+        if (from && to && seat) {
+            var tripInfo = 'Đi từ: <b>'+from+'</b>.<br/>Đến: <b>'+to+'</b>.<br/>Loại xe: <b>'+seat+' chỗ</b>.<br/>Quãng đường: <b>'+distance+'</b>.<br/>Giá tiền: <b>xxx</b>';
+            var alertPopup = $ionicPopup.alert({
+                title: 'Thông tin giá tiền',
+                template: tripInfo,
+                scope: $scope,
+                buttons: [
+                    {
+                        text: 'Quay lại',
+                        type: 'button-stable'
+                    },
+                    {
+                        text: '<b>Đặt xe</b>',
+                        type: 'button-assertive',
+                        onTap: function(e) {
+                            return 1;
+                        }
+                    }
+                ]
+            });
+            alertPopup.then(function(res) {
+                console.log('Tapped!', res);
+                if (res == 1) {
+                    detailsForm = document.getElementById('trip-user-details');
+                    detailsForm.classList.add('active');
+                    document.getElementById('tripInfo').innerHTML = tripInfo;
+                }
+            });
+        } else {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Lỗi',
+                template: 'Bạn phải điền đầy đủ thông tin: <br/>Điểm đi, <br/>Điểm đến, <br/>Xe số chỗ.',
+                scope: $scope,
+                buttons: [{
+                    text: '<b>Đóng</b>',
+                    type: 'button-assertive'
+                }]
+            });
+        }
+    }
 
     $scope.request = function () {
         from = document.getElementById('start').value;
@@ -55,7 +226,9 @@ angular.module('starter.controllers', [])
         phone = document.getElementById('phone').value;
         seat = document.getElementById('seat').value;
         guess_num = document.getElementById('guess_num').value;
-        time = document.getElementById('time').value;
+        time_date = document.getElementById('time_date').value;
+        time_time = document.getElementById('time_time').value;
+        time = time_date+' '+time_time+':00';
         is_round = document.getElementById('is_round').value;
         details = document.getElementById('details').value;
         PNR = document.getElementById('PNR').value;
@@ -127,36 +300,36 @@ angular.module('starter.controllers', [])
         console.log(document.getElementById('start').value);
         console.log(document.getElementById('end').value);
 
-    // First, remove any existing markers from the map.
-	for (var i = 0; i < markerArray.length; i++) {
-		markerArray[i].setMap(null);
-	}
-    markerArray = [];
+        // First, remove any existing markers from the map.
+    	for (var i = 0; i < markerArray.length; i++) {
+    		markerArray[i].setMap(null);
+    	}
+        markerArray = [];
 
-	// Retrieve the start and end locations and create a DirectionsRequest using
-	// {travelMode} directions.
-	directionsService.route({
-		origin: document.getElementById('start').value,
-		destination: document.getElementById('end').value,
-		travelMode: document.getElementById('travelMode').value // DRIVING | BICYCLING | TRANSIT | WALKING
-	}, function(response, status) {
-		// Route the directions and pass the response to a function to create
-		// markers for each step.
-		if (status === 'OK') {
-			document.getElementById('warnings-panel').innerHTML = '<b>' + response.routes[0].warnings + '</b>';
-			directionsDisplay.setDirections(response);
+    	// Retrieve the start and end locations and create a DirectionsRequest using
+    	// {travelMode} directions.
+    	directionsService.route({
+    		origin: document.getElementById('start').value,
+    		destination: document.getElementById('end').value,
+    		travelMode: document.getElementById('travelMode').value // DRIVING | BICYCLING | TRANSIT | WALKING
+    	}, function(response, status) {
+    		// Route the directions and pass the response to a function to create
+    		// markers for each step.
+    		if (status === 'OK') {
+    			document.getElementById('warnings-panel').innerHTML = '<b>' + response.routes[0].warnings + '</b>';
+    			directionsDisplay.setDirections(response);
 
-        	$scope.showSteps(response, stepDisplay, map);
+            	$scope.showSteps(response, stepDisplay, map);
 
-			var distance = response.routes[0].legs[0].distance.text;
-			var time = response.routes[0].legs[0].duration.text;
-			document.getElementById('box-search-one-distance').innerHTML = distance;
-			document.getElementById('box-search-one-time').innerHTML = time;
-			document.getElementById('box-search-one-route').visibility = true;
-		} else {
-			console.log('Directions request failed due to ' + status);
-		}
-	});
+    			var distance = response.routes[0].legs[0].distance.text;
+    			var time = response.routes[0].legs[0].duration.text;
+    			document.getElementById('box-search-one-distance').innerHTML = distance;
+    			document.getElementById('box-search-one-time').innerHTML = time;
+    			document.getElementById('box-search-one-route').visibility = true;
+    		} else {
+    			console.log('Directions request failed due to ' + status);
+    		}
+    	});
     }
 
     $scope.getDirection = function (map, pos) {
@@ -288,7 +461,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('LogoutCtrl', function($scope, $ionicPopup, $state) {
-    window.localStorage.removeItem("session");
+    window.localStorage.removeItem("session_user");
     userData = null;
     navIcons = document.getElementsByClassName("ion-navicon");
     for (i = 0; i < navIcons.length; i++) navIcons[i].classList.add("ng-hide");
@@ -340,7 +513,7 @@ angular.module('starter.controllers', [])
 
 .controller('AccountCtrl', function($scope, $state, $stateParams, $ionicPopup, $interval, $timeout, $ionicNavBarDelegate, $ionicLoading) {
     $ionicNavBarDelegate.showBackButton(false);
-    $scope.userData = userData = JSON.parse(window.localStorage.getItem("session"));
+    $scope.userData = userData = JSON.parse(window.localStorage.getItem("session_user"));
 
     if (userData) {
         $ionicLoading.show({

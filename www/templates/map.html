@@ -3,61 +3,29 @@
     <div id="map" data-tap-disabled="true"></div>
 
     <form class="trip-add trip-filter padding" id="pac-sidebar">
-        <div class="form-group">
-                <input class="form-control" type="text" name="name" id="name" placeholder="Tên *"/>
+        <div class="trip-from">
+  			<input id="pac-from" type="text" name="from" class="form-control" placeholder="Điểm đi *"/>
         </div>
-
-        <div class="form-group">
-  				<input class="form-control" type="text" name="phone" id="phone" placeholder="Số điện thoại *"/>
-        </div>
-
-        <div class="divide"></div>
-
-  		<div class="form-group">
-  				<select id="seat" name="seat" class="form-control" placeholder="Số chỗ *">
-                    <option value="4">4 chỗ</option>
-                    <option value="7">7 chỗ</option>
-                    <option value="16">16 chỗ</option>
-  				</select>
-        </div>
-
-        <div class="form-group">
-  				<input id="pac-from" type="text" name="from" class="form-control" placeholder="Điểm đi *"/>
-        </div>
-
-        <div class="form-group">
-  				<input id="pac-to" class="form-control" type="text" name="to" placeholder="Điểm đến *"/>
-  		</div>
-
-        <div class="form-group">
-          		<input class="form-control" type="number" min="1" name="guess_num" id="guess_num" placeholder="Số khách *"/>
-        </div>
-
-        <div class="form-group">
-          		<input class="form-control" type="text" name="time" id="time" placeholder="Thời gian *"/>
-        </div>
-
-        <div class="form-group">
-                <select id="is_round" name="is_round" class="form-control">
-                    <option value="0" selected>1 chiều</option>
-                    <option value="1">2 chiều</option>
-  				</select>
-        </div>
-
-
-        <div class="form-group">
-          		<input class="form-control" type="text" name="PNR" id="PNR" placeholder="Mã PNR"/>
-        </div>
-
-        <div class="form-group">
-          		<textarea class="form-control" name="details" id="details" placeholder="Ghi chú"></textarea>
-        </div>
-
-  		<div class="add-form-submit center">
-  			<input class="button button-small button-assertive" type="reset" value="Reset"/>
-            <button class="button button-small button-assertive" ng-click="request()">Request a TAXI</button>
+        <div class="trip-to">
+  			<input id="pac-to" class="form-control" type="text" name="to" placeholder="Điểm đến *"/>
   		</div>
 	</form>
+
+    <div class="choose-seats">
+        <div class="seats-type">
+            <a href="#" id="seat4" ng-click="select_seat(4)" class="sone">4 <span class="small">chỗ</span></a>
+            <a href="#" id="seat7" ng-click="select_seat(7)" class="sone">7 <span class="small">chỗ</span></a>
+            <a href="#" id="seat16" ng-click="select_seat(16)" class="sone">16 <span class="small">chỗ</span></a>
+            <div class="clearfix"></div>
+        </div>
+        <input type="hidden" id="seat" name="seat"/>
+        <!--	<select id="seat" name="seat" class="form-control" placeholder="Số chỗ *">
+                <option value="4">4 chỗ</option>
+                <option value="7">7 chỗ</option>
+                <option value="16">16 chỗ</option>
+            </select>-->
+        <button class="button button-assertive button-block" ng-click="request_first()">Đặt</button>
+    </div>
 
     <div class="trip-info">
     	<div id="floating-panel">
@@ -88,6 +56,61 @@
     	</div>
 
     </div> <!-- .trip-info -->
+
+
+    <form id="trip-user-details">
+        <div id="tripInfo"></div>
+        <button class="button button-assertive button-small" ng-click="goback()">Sửa</button>
+
+        <div class="divide"></div>
+
+        <div class="form-group">
+            <label>Tên *</label>
+                <input class="form-control" type="text" name="name" id="name" placeholder="Tên *"/>
+        </div>
+
+        <div class="form-group">
+            <label>Số điện thoại *</label>
+  				<input class="form-control" type="text" name="phone" id="phone" placeholder="Số điện thoại *"/>
+        </div>
+
+        <div class="divide"></div>
+
+        <div class="form-group">
+            <label>Số khách *</label>
+          		<input class="form-control" type="number" min="1" name="guess_num" id="guess_num" placeholder="Số khách *"/>
+        </div>
+
+        <div class="form-group">
+            <div><label>Thời gian *</label></div>
+            <input ng-click="openDatePicker()" type="date" class="form-control" name="time_date" id="time_date" placeholder="Ngày *" />
+          	<input ng-click="openTimePicker()" class="form-control" type="text" name="time_time" id="time_time" placeholder="Giờ *"/>
+        </div>
+
+        <div class="form-group">
+            <label>1 chiều/2 chiều *</label>
+                <select id="is_round" name="is_round" class="form-control">
+                    <option value="0" selected>1 chiều</option>
+                    <option value="1">2 chiều</option>
+  				</select>
+        </div>
+
+
+        <div class="form-group">
+            <label>Mã PNR </label>
+          		<input class="form-control" type="text" name="PNR" id="PNR" placeholder="Mã PNR"/>
+        </div>
+
+        <div class="form-group">
+            <label>Ghi chú </label>
+          		<textarea class="form-control" name="details" id="details" placeholder="Ghi chú"></textarea>
+        </div>
+
+        <div class="add-form-submit center">
+  			<input class="button" type="reset" value="Nhập lại"/>
+            <button class="button button-assertive" ng-click="request()">Đặt TAXI</button>
+  		</div>
+    </form>
 
   </ion-content>
 </ion-view>

@@ -39,7 +39,7 @@ angular.module('starter.services', [])
                     password: pw
                 }).then(function(response) {
                     //console.log(response);
-                    window.localStorage.setItem('session', JSON.stringify(response.data));
+                    window.localStorage.setItem("session_user", JSON.stringify(response.data));
                     return response.data;
                 });
 /*            var deferred = $q.defer();
@@ -70,11 +70,18 @@ angular.module('starter.services', [])
     remove: function(trip) {
       trips.splice(trips.indexOf(trip), 1);
     },
-    getAll: function(taxiid) {
-      return $http.post(MAIN_URL+"/trip_all.php", {taxiid: taxiid})
+    getAll: function(user_phone) {
+      return $http.post(MAIN_URL+"/trip_all.php", {user_phone: user_phone})
                 .then(function(response) {
         			trips = response.data;
         			return trips;
+        		});
+    },
+    countAll: function (user_phone) {
+      return $http.post(MAIN_URL+"/trip_count_all.php", {user_phone: user_phone})
+                .then(function(response) {
+        			trips_num = response.data;
+        			return trips_num;
         		});
     },
     getOne: function(tripID) {
@@ -82,19 +89,6 @@ angular.module('starter.services', [])
                   .then(function(response) {
           			trip = response.data;
           			return trip;
-          		});
-    },
-    buy: function(tripID, taxiid) {
-        return $http.post(MAIN_URL+"/trip_buy.php", {id: tripID, taxiid: taxiid})
-                  .then(function(response) {
-          			return response.data;
-          		});
-    },
-    getAllBuy: function (taxiid) {
-        return $http.post(MAIN_URL+"/trip_all_buy.php", {taxiid: taxiid})
-                  .then(function(response) {
-          			trips = response.data;
-          			return trips;
           		});
     }
   };
