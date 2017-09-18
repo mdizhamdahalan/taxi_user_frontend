@@ -1,13 +1,13 @@
-<ion-view view-title="Đặt xe" name="map-view">
+<ion-view view-title="Đặt xe" name="map-view" data-tap-disabled="true">
   <ion-content class="map-view" ion-content scroll="false" no-bounce>
     <div id="map" data-tap-disabled="true"></div>
 
     <form class="trip-add trip-filter padding" id="pac-sidebar">
         <div class="trip-from">
-  			<input id="pac-from" type="text" name="from" class="form-control" placeholder="Điểm đi *"/>
+  			<input data-tap-disabled="true" autocomplete="disabled" id="pac-from" type="text" name="from" class="form-control" placeholder="Điểm đi *"/>
         </div>
         <div class="trip-to">
-  			<input id="pac-to" class="form-control" type="text" name="to" placeholder="Điểm đến *"/>
+  			<input data-tap-disabled="true" autocomplete="disabled" id="pac-to" class="form-control" type="text" name="to" placeholder="Điểm đến *"/>
   		</div>
 	</form>
 
@@ -27,7 +27,7 @@
         <button class="button button-assertive button-block" ng-click="request_first()">Đặt</button>
     </div>
 
-    <div class="trip-info">
+    <div class="trip-info hide">
     	<div id="floating-panel">
     		<div class="form-group">
     			<div class="col-lg-1 control-label no-padding">From</div>
@@ -111,6 +111,5 @@
             <button class="button button-assertive" ng-click="request()">Đặt TAXI</button>
   		</div>
     </form>
-
   </ion-content>
 </ion-view>

@@ -108,9 +108,26 @@ angular.module('starter.controllers', [])
     });
 })
 
-.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $timeout, RequestService, $ionicPopup, ionicTimePicker, ionicDatePicker) {
+.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $timeout, $interval, RequestService, $ionicPopup, ionicTimePicker, ionicDatePicker, $ionicLoading) {
     var options = {timeout: 10000, enableHighAccuracy: true};
     markerArray = [];
+
+/*    $scope.disableTap = function() {*
+        var container = document.getElementsByClassName('pac-container');
+        angular.element(container).attr('data-tap-disabled', 'true');
+        var backdrop = document.getElementsByClassName('backdrop');
+        angular.element(backdrop).attr('data-tap-disabled', 'true');
+        angular.element(container).on("click", function() {
+        document.getElementById('pac-input').blur();
+        });
+    }; */
+    $scope.disableTap = function() {
+        container = document.getElementsByClassName('pac-container');
+        for (i = 0; i < container.length; i++) {
+            container[i].setAttribute('data-tap-disabled', 'true');
+        }
+        console.log('disableTap');
+    }
 
     var timePickerObj = {
         callback: function (val) {      //Mandatory
@@ -132,8 +149,6 @@ angular.module('starter.controllers', [])
     $scope.openTimePicker = function () {
         ionicTimePicker.openTimePicker(timePickerObj);
     }
-
-
     var datePickerObj = {
         callback: function (val) {  //Mandatory
             var date = new Date(val);
@@ -152,7 +167,6 @@ angular.module('starter.controllers', [])
         setLabel: 'Đặt',    //Optional
         templateType: 'popup'       //Optional
     };
-
     $scope.openDatePicker = function(){
         ionicDatePicker.openDatePicker(datePickerObj);
     };
@@ -166,11 +180,6 @@ angular.module('starter.controllers', [])
                 sones[i].classList.add('active');
             }
         }
-    }
-
-    $scope.goback = function () {
-        detailsForm = document.getElementById('trip-user-details');
-        detailsForm.classList.remove('active');
     }
 
     $scope.request_first = function () {
@@ -411,6 +420,53 @@ angular.module('starter.controllers', [])
             $scope.getDirection(map, place.geometry.location);
     }
 
+    $scope.searchBar = function (map) {
+        var sidebar = document.getElementById('pac-sidebar');
+        var from = document.getElementById('pac-from');
+        var to = document.getElementById('pac-to');
+
+        var options = {componentRestrictions: {country: 'vn'}};
+//        $scope.map.controls[google.maps.ControlPosition.LEFT].push(sidebar);
+
+var autocomplete_from = new google.maps.places.Autocomplete(from, options);
+var autocomplete_to = new google.maps.places.Autocomplete(to, options);
+
+/*autocomplete_from.bindTo('bounds', $scope.map);
+autocomplete_to.bindTo('bounds', $scope.map);
+*/
+google.maps.event.addDomListener(from, 'keydown', function(e) {
+    console.log('keydown!')
+    if (e.keyCode == 13 && $('.pac-container:visible').length) {
+        e.preventDefault();
+    }
+});
+        google.maps.event.trigger(to, 'keydown', function(e) {
+            console.log(e.keyCode);
+            if(e.keyCode===13 && !e.triggered){
+                google.maps.event.trigger(this,'keydown',{keyCode:40})
+                google.maps.event.trigger(this,'keydown',{keyCode:13,triggered:true})
+            }
+        });
+
+        var infowindow = new google.maps.InfoWindow();
+
+//        autocomplete_to.addListener('place_changed', function() {
+        google.maps.event.addListener(autocomplete_to, 'place_changed', function () {
+            $scope.map_select(map, autocomplete_to, infowindow, 1);
+        });
+        google.maps.event.addListener(autocomplete_from, 'place_changed', function () {
+            $scope.map_select(map, autocomplete_from, infowindow, 0);
+        });
+    }
+
+
+    $ionicLoading.show({
+        content: 'Loading',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+    });
 
     var latLng = new google.maps.LatLng(21.033, 105.85);
     var mapOptions = {
@@ -435,25 +491,20 @@ angular.module('starter.controllers', [])
             infoWindow.open($scope.map, marker);
         });*/
 
+        $scope.searchBar($scope.map);
 
-        var sidebar = document.getElementById('pac-sidebar');
-        var from = document.getElementById('pac-from');
-        var to = document.getElementById('pac-to');
-        $scope.map.controls[google.maps.ControlPosition.LEFT].push(sidebar);
+        $scope.theInterval = null;
 
-        var autocomplete_from = new google.maps.places.Autocomplete(from);
-        var autocomplete_to = new google.maps.places.Autocomplete(to);
-        autocomplete_from.bindTo('bounds', $scope.map);
-        autocomplete_to.bindTo('bounds', $scope.map);
-
-
-        var infowindow = new google.maps.InfoWindow();
-
-        autocomplete_to.addListener('place_changed', function() {
-            $scope.map_select($scope.map, autocomplete_to, infowindow, 1);
-        });
-        autocomplete_from.addListener('place_changed', function() {
-            $scope.map_select($scope.map, autocomplete_from, infowindow, 0);
+        $scope.theInterval = $interval(function() {
+            var pacContainers = document.getElementsByClassName('pac-container');
+            if (pacContainers.length >= 2) {
+                $interval.cancel($scope.theInterval);
+                $scope.disableTap();
+                $ionicLoading.hide();
+            }
+        }.bind(this), 1000);
+        $scope.$on('$destroy', function () {
+            $interval.cancel($scope.theInterval)
         });
 
     });
