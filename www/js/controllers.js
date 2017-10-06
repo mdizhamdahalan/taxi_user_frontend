@@ -188,7 +188,15 @@ angular.module('starter.controllers', [])
         seat = document.getElementById('seat').value;
         distance = document.getElementById('box-search-one-distance').innerHTML;
         if (from && to && seat) {
-            var tripInfo = 'Đi từ: <b>'+from+'</b>.<br/>Đến: <b>'+to+'</b>.<br/>Loại xe: <b>'+seat+' chỗ</b>.<br/>Quãng đường: <b>'+distance+'</b>.<br/>Giá tiền: <b>xxx</b>';
+            var frAr = from.split(',');
+            var toAr = to.split(',');
+            var fromDistrict = fr[fr.length-2].trim(); // quận đi
+            var toDistrict = toAr[toAr.length-2].trim(); // quận đến
+
+            var priceThisTrip = 'xxx';
+
+            var tripInfo = 'Đi từ: <b>'+from+'</b>.<br/>Đến: <b>'+to+'</b>.<br/>Loại xe: <b>'+seat+' chỗ</b>.<br/>Quãng đường: <b>'+distance+'</b>.<br/>Giá tiền: <b>'+priceThisTrip+'</b>';
+
             var alertPopup = $ionicPopup.alert({
                 title: 'Thông tin giá tiền',
                 template: tripInfo,
@@ -265,7 +273,10 @@ angular.module('starter.controllers', [])
                         scope: $scope,
                         buttons: [{
                               text: 'Đóng',
-                              type: 'button-assertive'
+                              type: 'button-assertive',
+                              onTap: function(e) {
+                                  $state.go('tab.map');
+                              }
                         }]
                     });
                 }
