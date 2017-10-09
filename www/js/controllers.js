@@ -275,9 +275,15 @@ angular.module('starter.controllers', [])
                               text: 'Đóng',
                               type: 'button-assertive',
                               onTap: function(e) {
-                                  $state.go('tab.map');
+                                  return 1;
                               }
                         }]
+                    });
+                    alertPopup.then(function(res) {
+                        console.log('Success!', res);
+                        if (res == 1) {
+                            $state.go('tab.map');
+                        }
                     });
                 }
             })
