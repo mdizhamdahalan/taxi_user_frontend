@@ -282,7 +282,10 @@ angular.module('starter.controllers', [])
                     alertPopup.then(function(res) {
                         console.log('Success!', res);
                         if (res == 1) {
-                            $state.go('tab.map');
+                            detailsForm = document.getElementById('trip-user-details');
+                            detailsForm.classList.remove('active');
+                            document.getElementById('tripInfo').innerHTML = '';
+                            $state.go($state.current, {}, {reload: true});
                         }
                     });
                 }
