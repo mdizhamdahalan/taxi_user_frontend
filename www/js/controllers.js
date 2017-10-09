@@ -196,7 +196,7 @@ angular.module('starter.controllers', [])
             distance = document.getElementById('box-search-one-distance').innerHTML;
             var mult = 10;
             if (seat == 7) mult =12;
-            var priceThisTrip = Math.ceil(distance)*mult;
+            var priceThisTrip = parseFloat(distance)*mult;
             document.getElementById('price').value = priceThisTrip;
 
             var tripInfo = 'Đi từ: <b>'+from+'</b>.<br/>Đến: <b>'+to+'</b>.<br/>Loại xe: <b>'+seat+' chỗ</b>.<br/>Quãng đường: <b>'+distance+'</b>.<br/>Giá tiền: <b>'+priceThisTrip+'k</b>';
