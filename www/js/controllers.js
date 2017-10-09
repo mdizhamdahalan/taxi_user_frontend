@@ -254,9 +254,10 @@ angular.module('starter.controllers', [])
         details = document.getElementById('details').value;
         PNR = document.getElementById('PNR').value;
         var priceThisTrip = document.getElementById('price').value;
+        console.log(priceThisTrip+' ~ ');
 
         //console.log(name+' '+phone+' '+from+' '+to+' '+seat+' '+guess_num+' '+PNR);
-        if (name && phone && from && to && seat > 0 && guess_num > 0 && time) {
+        if (name && phone && from && to && seat > 0 && guess_num > 0 && time && priceThisTrip) {
             formData = {
                 'name': name,
                 'phone': phone,
