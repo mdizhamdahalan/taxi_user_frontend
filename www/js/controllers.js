@@ -195,7 +195,7 @@ angular.module('starter.controllers', [])
 
             var mult = 10;
             if (seat == 7) mult =12;
-            var priceThisTrip = parseInt(distance)*mult;
+            var priceThisTrip = document.getElementById('price').value;
 
             var tripInfo = 'Đi từ: <b>'+from+'</b>.<br/>Đến: <b>'+to+'</b>.<br/>Loại xe: <b>'+seat+' chỗ</b>.<br/>Quãng đường: <b>'+distance+'</b>.<br/>Giá tiền: <b>'+priceThisTrip+'k</b>';
 
@@ -255,6 +255,7 @@ angular.module('starter.controllers', [])
         var mult = 10;
         if (seat == 7) mult =12;
         var priceThisTrip = parseFloat(distance)*mult;
+        document.getElementById('price').value = priceThisTrip;
 
         //console.log(name+' '+phone+' '+from+' '+to+' '+seat+' '+guess_num+' '+PNR);
         if (name && phone && from && to && seat > 0 && guess_num > 0 && time) {
