@@ -190,7 +190,7 @@ angular.module('starter.controllers', [])
         if (from && to && seat) {
             var frAr = from.split(',');
             var toAr = to.split(',');
-            var fromDistrict = fr[fr.length-2].trim(); // quận đi
+            var fromDistrict = frAr[frAr.length-2].trim(); // quận đi
             var toDistrict = toAr[toAr.length-2].trim(); // quận đến
 
             var priceThisTrip = 'xxx';
