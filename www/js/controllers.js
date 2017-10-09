@@ -254,7 +254,7 @@ angular.module('starter.controllers', [])
         distance = document.getElementById('box-search-one-distance').innerHTML;
         var mult = 10;
         if (seat == 7) mult =12;
-        var priceThisTrip = parseInt(distance)*mult;
+        var priceThisTrip = parseFloat(distance)*mult;
 
         //console.log(name+' '+phone+' '+from+' '+to+' '+seat+' '+guess_num+' '+PNR);
         if (name && phone && from && to && seat > 0 && guess_num > 0 && time) {
