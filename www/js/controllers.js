@@ -193,9 +193,11 @@ angular.module('starter.controllers', [])
             var fromDistrict = frAr[frAr.length-2].trim(); // quận đi
             var toDistrict = toAr[toAr.length-2].trim(); // quận đến
 
-            var priceThisTrip = 'xxx';
+            var mult = 10;
+            if (seat == 7) mult =12;
+            var priceThisTrip = parseInt(distance)*mult;
 
-            var tripInfo = 'Đi từ: <b>'+from+'</b>.<br/>Đến: <b>'+to+'</b>.<br/>Loại xe: <b>'+seat+' chỗ</b>.<br/>Quãng đường: <b>'+distance+'</b>.<br/>Giá tiền: <b>'+priceThisTrip+'</b>';
+            var tripInfo = 'Đi từ: <b>'+from+'</b>.<br/>Đến: <b>'+to+'</b>.<br/>Loại xe: <b>'+seat+' chỗ</b>.<br/>Quãng đường: <b>'+distance+'</b>.<br/>Giá tiền: <b>'+priceThisTrip+'k</b>';
 
             var alertPopup = $ionicPopup.alert({
                 title: 'Thông tin giá tiền',
@@ -249,6 +251,11 @@ angular.module('starter.controllers', [])
         is_round = document.getElementById('is_round').value;
         details = document.getElementById('details').value;
         PNR = document.getElementById('PNR').value;
+        distance = document.getElementById('box-search-one-distance').innerHTML;
+        var mult = 10;
+        if (seat == 7) mult =12;
+        var priceThisTrip = parseInt(distance)*mult;
+
         //console.log(name+' '+phone+' '+from+' '+to+' '+seat+' '+guess_num+' '+PNR);
         if (name && phone && from && to && seat > 0 && guess_num > 0 && time) {
             formData = {
@@ -260,6 +267,7 @@ angular.module('starter.controllers', [])
                 'guess_num': guess_num,
                 'PNR': PNR,
                 'time': time,
+                'price': priceThisTrip,
                 'is_round': is_round,
                 'details': details
             };
