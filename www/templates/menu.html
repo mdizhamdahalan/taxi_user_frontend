@@ -4,7 +4,7 @@
             <ion-nav-back-button> </ion-nav-back-button>
             <ion-nav-buttons side="left">
                 <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
-            </ion-nav-buttons>
+            </ion-nav-buttons>	    
         </ion-nav-bar>
         <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
     </ion-side-menu-content>
@@ -16,16 +16,34 @@
         </ion-header-bar>
         <ion-content>
             <ion-list>
+		<ion-item ng-show="{{hide == uuuuu}}" menu-close href="#/tab/account">
+                    <info class="left">Tài khoản: {{userData.username}}</info></br>
+                </ion-item>
                 <ion-item menu-close href="#/tab/map">
-                    Map
+                    Đặt chuyến
                 </ion-item>
-                <ion-item menu-close href="#/tab/trips">
-                     Chuyến đã đặt
+                <ion-item menu-close href="https://docs.google.com/spreadsheets/d/11C6QqTFYFyNtwiqKYkfa5g_AkJkg3t1vUp6DXgVgdD4/edit#gid=1707284808">
+                    Bảng giá
                 </ion-item>
-                <ion-item menu-close href="#/tab/logout">
-                    Thoát
+                <ion-item menu-close href="#/tab/info">
+                    Giới thiệu
                 </ion-item>
+		<ion-item menu-close href="#/tab/">
+		    Lịch sử đặt chuyến
+		</ion-item>
+		<ion-item menu-close  href="#/tab/noti">
+		    Thông báo khuyến mãi <span style="color: red;"> <b>[{{promotions.total}}]</b> <span>
+		</ion-item>
+		<ion-item menu-close href="{{link}}">
+                    {{log}}
+                </ion-item>
+		<ion-item ng-hide="{{hide == undefined}}" menu-close href="#/tab/register">
+                    Đăng ký
+                </ione-item>
             </ion-list>
+	    </br>
+	    <center>Liên hệ: <a href="tel:+842462810099">0246.281.0099</a></center></br>
+	    <center>Đông Dương D.C xin kính chào</center>
         </ion-content>
     </ion-side-menu>
 </ion-side-menus>

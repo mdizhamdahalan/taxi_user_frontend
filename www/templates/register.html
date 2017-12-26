@@ -1,0 +1,23 @@
+<ion-view view-title="Đăng ký" name="login-view">
+  <ion-content class="padding">
+      <div class="list list-inset">
+          <label class="item item-input">
+              <input type="text" placeholder="Tên đăng nhập(*)" ng-model="data.username" required>
+          </label>
+          <label class="item item-input">
+              <input type="password" placeholder="Mật khẩu(*)" ng-model="data.password" required>
+          </label>
+          <label class="item item-input">
+              <input type="text" placeholder="Họ tên" ng-model="data.name">
+          </label>
+	  <label class="item item-input">
+              <input type="tel" placeholder="Số điện thoại(*)" ng-model="data.phone" required>
+          </label>
+	  <label class="item item-input">
+              <input type="text" placeholder="Địa chỉ" ng-model="data.address">
+          </label>
+
+      </div>
+      <button class="button button-block button-assertive" ng-click="register()">Đăng ký</button>
+  </ion-content>
+</ion-view>

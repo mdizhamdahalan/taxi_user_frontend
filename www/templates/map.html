@@ -12,8 +12,9 @@
 	</form>
 
     <div class="choose-seats">
-        <div class="seats-type">
+        <div class="seats-type" style="width:270px">
             <a href="#" id="seat4" ng-click="select_seat(4)" class="sone">4 <span class="small">chỗ</span></a>
+	    <a href="#" id="seat5" ng-click="select_seat(5)" class="sone">5 <span class="small">chỗ</span></a>
             <a href="#" id="seat7" ng-click="select_seat(7)" class="sone">7 <span class="small">chỗ</span></a>
             <a href="#" id="seat16" ng-click="select_seat(16)" class="sone">16 <span class="small">chỗ</span></a>
             <div class="clearfix"></div>
@@ -21,10 +22,11 @@
         <input type="hidden" id="seat" name="seat"/>
         <!--	<select id="seat" name="seat" class="form-control" placeholder="Số chỗ *">
                 <option value="4">4 chỗ</option>
-                <option value="7">7 chỗ</option>
+                <option value="5">5 chỗ</option>
+		<option value="7">7 chỗ</option>
                 <option value="16">16 chỗ</option>
             </select>-->
-        <button class="button button-assertive button-block" ng-click="request_first()">Đặt</button>
+        <button class="button button-assertive button-block" ng-click="request_first()">Đặt xe</button>
     </div>
 
     <div class="trip-info hide">
@@ -109,7 +111,7 @@
 
         <div class="add-form-submit center">
   			<input class="button" type="reset" value="Nhập lại"/>
-            <button class="button button-assertive" ng-click="request()">Đặt TAXI</button>
+            <button class="button button-assertive" ng-click="request()">Đặt xe</button>
   		</div>
     </form>
   </ion-content>

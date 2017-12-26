@@ -1,0 +1,38 @@
+<ion-view view-title="Thông báo khuyến mãi">
+              <ion-nav-buttons side="right">
+                <button class="reloadbutton button button-clear button-positive" ng-click="refreshItems()">
+                    Refresh
+                </button>
+            </ion-nav-buttons>
+
+  <ion-content>
+    <div class="list-notSeen">
+      <a ng-click="view({{promotion.id}})" class="item item-remove-animate history-item"  style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" ng-repeat="promotion in promotions_others" type="item-text-wrap">
+	<h3>
+            <b>Thời gian bắt đầu: {{promotion.timeFrom}}</b>
+	</h3>
+	<h3>
+            <b>Thời gian kết thúc: {{promotion.timeTo}}</b>
+        </h3>
+        <p class="animated fadeIn">
+               Nội dung: {{promotion.details}}
+        </p>
+     </a>
+    </div>
+
+    <div class="list">
+      <a ng-click="view({{promotion.id}})" class="item item-remove-animate history-item" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" ng-repeat="promotion in promotions_notSeen" type="item-text-wrap">
+        <h3>
+            <b>Thời gian bắt đầu: {{promotion.timeFrom}}</b>
+        </h3>
+	<h3>
+            <b>Thời gian kết thúc: {{promotion.timeTo}}</b>
+        </h3>
+        <p class="animated fadeIn">
+               Nội dung: {{promotion.details}}
+        </p>
+     </a>
+    </div>
+
+  </ion-content>
+</ion-view>

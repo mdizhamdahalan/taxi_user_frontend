@@ -24,6 +24,24 @@ angular.module('starter.services', [])
     }
 })
 
+.factory('RegisterService', function($q, $http) {
+    return {
+        registerUser: function(username, password, name, phone, address) {
+            return $http.post(MAIN_URL+"/register.php", {
+                    username: username,
+                    password: password,
+		    name: name,
+		    phone: phone,
+		    address: address
+                }).then(function(response) {
+                    console.log(response.data);
+                    window.localStorage.setItem("session_user", JSON.stringify(response.data));
+                    return response.data;
+                });
+        }
+    }
+})
+
 .factory('LoginService', function($q, $http) {
     return {
 /*        checkLogin: function() {
@@ -38,7 +56,7 @@ angular.module('starter.services', [])
                     username: name,
                     password: pw
                 }).then(function(response) {
-                    //console.log(response);
+                    console.log(response);
                     window.localStorage.setItem("session_user", JSON.stringify(response.data));
                     return response.data;
                 });
@@ -59,6 +77,20 @@ angular.module('starter.services', [])
             }
             return promise;*/
         }
+    }
+})
+
+.factory('AccountService', function($http) {
+    return {
+        getUserData: function(userid) {
+            return $http.post(MAIN_URL+"/getUserData.php", {id: userid}).then(function(response) {
+                //console.log(response);
+                if (response.data != -1) {
+                    window.localStorage.setItem("session_user", JSON.stringify(response.data));
+                }
+                return response.data;
+            });
+      }
     }
 })
 
@@ -117,7 +149,7 @@ angular.module('starter.services', [])
   };
 })
 
-
+/*
 .factory('InfriengeService', function($http) {
   var infrienges = [];
 
@@ -139,3 +171,27 @@ angular.module('starter.services', [])
     }
   };
 })
+*/
+.factory('PromotionService', function($http) {
+  var promotions = [];
+  return {
+    getAll: function(userID) {
+      return $http.post(MAIN_URL+"/promotion_all.php", {userID: userID})
+                .then(function(response) {
+                                promotions = response.data;
+                    console.log(promotions);
+                                return promotions;
+                        });
+    },
+
+    getOne: function(pID) {
+        return $http.post(MAIN_URL+"/promotion_one.php", {id: pID})
+                .then(function(response) {
+                                console.log(response);
+                                promotion = response.data;
+                                return promotion;
+                });
+    }
+  };
+})
+

@@ -89,6 +89,16 @@ angular.module('starter', ['ionic', 'chart.js', 'starter.controllers', 'starter.
     		}
 	})
 
+    .state('tab.register', {
+                url: '/register',
+                views: {
+                                'menuContent': {
+                                                templateUrl: 'templates/register.html',
+                                                controller: 'RegisterCtrl'
+                                }
+                }
+        })
+
 	.state('tab.map', {
       	url: '/map',
 		views: {
@@ -98,6 +108,36 @@ angular.module('starter', ['ionic', 'chart.js', 'starter.controllers', 'starter.
 			}
 		}
     })
+	.state('tab.info', {
+		url: '/info',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/tab-info.html',
+			}
+		}
+})
+
+
+	.state('tab.noti', {
+		url: '/noti',
+		views: {
+			'menuContent': {
+				templateUrl: 'templates/tab-noti.html',
+				controller: 'PromotionCtrl'
+			}
+		}
+})
+
+	.state('tab.noti.view', {
+                url: '/:pID',
+                views: {
+                        'menuContent@tab': {
+                                templateUrl: 'templates/promotionView.html',
+                                controller: 'PromotionViewCtrl'
+                        }
+                }
+        })
+
 
 	.state('tab.account', {
 		url: '/account',

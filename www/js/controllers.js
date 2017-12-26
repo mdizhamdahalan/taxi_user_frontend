@@ -1,13 +1,59 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicSideMenuDelegate, $state, $ionicHistory, $rootScope, $timeout, $ionicLoading, $location) {
+.controller('AppCtrl', function($scope, $ionicSideMenuDelegate, $state, $ionicHistory, $rootScope, $timeout, $ionicLoading, $location, $interval, AccountService) {
     $scope.userData = userData = JSON.parse(window.localStorage.getItem("session_user"));
+    navIcons = document.getElementsByTagName("button");
+
+    $scope.theIntervalCheckAccount = null;
     if (!userData) {
         $ionicLoading.hide();
         $state.go('tab.map');
+	$scope.log = 'Đăng nhập';
+	$scope.link = "#tab/login";
+	$scope.hide = "uuuuu";
+//	$scope.register = "Đăng ký";
         return false;
-    } else {
-        // kill this session every 2 seconds
+    }
+    else{
+	for (i = 0; i < navIcons.length; i++) navIcons[i].classList.remove("ng-hide");
+            $scope.reload = function() {
+                // Your refresh code
+                $rootScope.$emit('refreshedPressed');
+            }
+
+	$scope.theIntervalCheckAccount = $interval(function(){
+                AccountService.getUserData(userData.id);
+		$scope.log = 'Thoát';
+		$scope.link = "#tab/logout";
+		$scope.hide = "undefined";
+            }.bind(this), 1000);
+    }
+
+})
+
+.controller('PromotionCtrl', function($scope, $state, PromotionService, $ionicPopup, $interval, $timeout, $ionicNavBarDelegate, $ionicLoading) {  $ionicNavBarDelegate.showBackButton(false);
+    $scope.userData = userData = JSON.parse(window.localStorage.getItem("session_user"));
+    $scope.refreshItems = function () {
+         $ionicLoading.show({
+                content: 'Loading',
+                animation: 'fade-in',
+                showBackdrop: true,
+                maxWidth: 200,
+                showDelay: 0
+            });
+    PromotionService.getAll(userData.id).then(function(response) {
+        $timeout(function() {
+            $scope.promotions_notSeen = response.notSeen; //Assign data received to $scope.data  
+            $scope.promotions_others = response.others;
+	    console.log(response)
+            $ionicLoading.hide();
+        }, 1000);
+    });
+        }
+
+         $scope.refreshItems();
+    $scope.view = function(pID) {
+        $state.go('tab.promotion.view', {pID: pID});
     }
 })
 
@@ -190,16 +236,129 @@ angular.module('starter.controllers', [])
         if (from && to && seat) {
             var frAr = from.split(',');
             var toAr = to.split(',');
-            var fromDistrict = frAr[frAr.length-2].trim(); // quận đi
-            var toDistrict = toAr[toAr.length-2].trim(); // quận đến
+            var fromDistrict = frAr[frAr.length-3].trim(); // quận đi
+            var toDistrict = toAr[toAr.length-3].trim(); // quận đến
 
             distance = document.getElementById('box-search-one-distance').innerHTML;
             var mult = 10;
             if (seat == 7) mult =12;
+	    if (seat == 16) mult = 999;
             var priceThisTrip = parseFloat(distance)*mult;
-            document.getElementById('price').value = priceThisTrip;
+            
+	    if ((fromDistrict == 'Cầu Giấy' || fromDistrict == 'Đống Đa' || fromDistrict == 'Ba Đình' || fromDistrict == 'Hai Bà Trưng' || fromDistrict == 'Nam Từ Liêm' || fromDistrict == 'Bắc Từ Liêm' ) && toDistrict == 'Sóc Sơn')
+	    {
+		if(seat == 4 || seat == 5)
+		{priceThisTrip = 190;}
+		else if(seat == 7)
+		{priceThisTrip = 300;}
+	    }
 
-            var tripInfo = 'Đi từ: <b>'+from+'</b>.<br/>Đến: <b>'+to+'</b>.<br/>Loại xe: <b>'+seat+' chỗ</b>.<br/>Quãng đường: <b>'+distance+'</b>.<br/>Giá tiền: <b>'+priceThisTrip+'k</b>';
+	    if ((toDistrict == 'Cầu Giấy' || toDistrict == 'Đống Đa' || toDistrict == 'Ba Đình' || toDistrict == 'Hai Bà Trưng' || toDistrict == 'Nam Từ Liêm' || toDistrict == 'Bắc Từ Liêm' ) && fromDistrict == 'Sóc Sơn')
+	    {	
+		if(seat == 4 || seat == 5)
+		{priceThisTrip = 250;}
+		else if(seat ==7)
+		{priceThisTrip = 350;}
+	    }
+
+	    if (fromDistrict == 'Gia Lâm' && toDistrict == 'Sóc Sơn')
+	    {
+		if(seat == 4 || seat == 5)
+		priceThisTrip = 250;
+		else if(seat==7)
+		priceThisTrip = 350;
+	    }
+
+	    if (toDistrict == 'Gia Lâm' && fromDistrict == 'Sóc Sơn')
+	    {
+		if(seat == 4 || seat == 5)
+		priceThisTrip = 300;
+		else
+		priceThisTrip = 370;
+	    }
+
+	    if (fromDistrict == 'Thanh Xuân' && toDistrict == 'Sóc Sơn')
+	    {
+        	if(seat == 4 || seat == 5)
+		priceThisTrip = 230;
+		else if(seat==7)
+		priceThisTrip = 320;
+	    }
+
+	    if (toDistrict == 'Thanh Xuân' && fromDistrict == 'Sóc Sơn')
+	    {
+  		if(seat == 4 || seat == 5)
+		priceThisTrip = 250;
+		else if(seat==7)
+		priceThisTrip = 330;
+	    }
+
+if (fromDistrict == 'Long Biên' && toDistrict == 'Sóc Sơn')
+{
+	if(seat == 4 || seat == 5)
+	priceThisTrip = 230;
+	else if(seat==7)
+	priceThisTrip = 320;
+}
+
+if (toDistrict == 'Long Biên' && fromDistrict == 'Sóc Sơn')
+{
+	if(seat == 4 || seat == 5)
+	priceThisTrip = 260;
+	else if(seat==7)
+	priceThisTrip = 350;
+}
+
+if (fromDistrict == 'Hà Đông' && toDistrict == 'Sóc Sơn')
+{
+	if(seat == 4 || seat == 5)
+	priceThisTrip = 250;
+	else if(seat==7)
+	priceThisTrip = 350;
+}
+
+if (toDistrict == 'Hà Đông' && fromDistrict == 'Sóc Sơn')
+{
+	if(seat == 4 || seat == 5)
+	priceThisTrip = 270;
+	else if(seat==7)
+	priceThisTrip = 370;
+}
+
+if (fromDistrict == 'Thanh Trì' && toDistrict == 'Sóc Sơn')
+{
+	if(seat == 4 || seat == 5)
+	priceThisTrip = 250;
+	else if(seat==7)
+	priceThisTrip = 350;
+}
+
+if (toDistrict == 'Thanh Trì' && fromDistrict == 'Sóc Sơn')
+{
+	if(seat == 4 || seat == 5)
+	priceThisTrip = 300;
+	else if(seat==7)
+	priceThisTrip = 370;
+}
+
+if (fromDistrict == 'Hoàng Mai' && toDistrict == 'Sóc Sơn')
+{
+	if(seat == 4 || seat == 5)
+	priceThisTrip = 250;
+	else if(seat==7)
+	priceThisTrip = 350;
+}
+
+if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
+{
+	if(seat == 4 || seat == 5)
+	priceThisTrip = 280;
+	else if(seat==7)
+	priceThisTrip = 370;
+}
+	    document.getElementById('price').value = priceThisTrip;
+
+            var tripInfo = 'Đi từ: <b>' +frAr+ '</b>.<br/>Đến: <b>' +toAr+ '</b>.<br/>Loại xe: <b>'+seat+' chỗ</b>.<br/>Quãng đường: <b>' +distance+ '</b>.<br/>Giá tiền (tham khảo): <b>' +priceThisTrip+ 'k</b>';
 
             var alertPopup = $ionicPopup.alert({
                 title: 'Thông tin giá tiền',
@@ -276,7 +435,7 @@ angular.module('starter.controllers', [])
                 if (data == 1) {
                     var alertPopup = $ionicPopup.alert({
                         title: 'Thành công!',
-                        template: 'Chuyến của bạn đã được gửi! Admin sẽ kiểm duyệt và liên hệ với bạn theo số điện thoại đã đăng kí trong thời gian sớm nhất.',
+                        template: 'Quý khách đã đặt xe thành công. Nhân viên công ty sẽ liên hệ để xác nhận với quý khách ngay bây giờ. Cảm ơn quý khác đã tin tưởng và sử dụng dịch vụ của công ty Đông Dương D.C. Trân trọng.',
                         scope: $scope,
                         buttons: [{
                               text: 'Đóng',
@@ -541,20 +700,18 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
 
 .controller('LogoutCtrl', function($scope, $ionicPopup, $state) {
     window.localStorage.removeItem("session_user");
-    userData = null;
+    userData = '';
     navIcons = document.getElementsByClassName("ion-navicon");
     for (i = 0; i < navIcons.length; i++) navIcons[i].classList.add("ng-hide");
-    $state.go('tab.login');
+    $state.go('tab.map');
 })
 
 .controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state, $ionicSideMenuDelegate, $ionicNavBarDelegate, $ionicHistory, $rootScope) {
     $ionicNavBarDelegate.showBackButton(false);
-
     $scope.data = {};
-
     $scope.login = function() {
         LoginService.loginUser($scope.data.username, $scope.data.password).then(function(data) {
-            console.log(data);
+//            console.log(data);
             if (data == -1) {
                 var alertPopup = $ionicPopup.alert({
                     title: 'Lỗi!',
@@ -577,7 +734,6 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
                 });
             } else {
                 userData = data;
-
                 //document.getElementsByTagName("info")[0].innerHTML = userData.name;
                 //document.getElementsByTagName("coin")[0].innerHTML = userData.coin+"k";
 
@@ -589,6 +745,47 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
         })
     }
 })
+
+.controller('RegisterCtrl', function($scope, RegisterService, $ionicPopup, $state, $ionicSideMenuDelegate, $ionicNavBarDelegate, $ionicHistory, $rootScope) {
+    $ionicNavBarDelegate.showBackButton(false);
+    $scope.data = {};
+    $scope.register = function() {
+        RegisterService.registerUser($scope.data.username, $scope.data.password, $scope.data.name, $scope.data.phone, $scope.data.address).then(function(data) {
+            console.log(data);
+	    if (data == -1) {
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Lỗi!',
+                    template: 'Thiếu thông tin!',
+                    scope: $scope,
+                    buttons: [{
+                          text: 'Đóng',
+                          type: 'button-assertive'
+                    }]
+               });
+            }else if (data == 0) {
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Lỗi!',
+                    template: 'Tên đăng nhập hoặc mật khẩu không đúng!',
+                    scope: $scope,
+                    buttons: [{
+                          text: 'Đóng',
+                          type: 'button-assertive'
+                    }]
+                });
+            } else {
+               registerData = data;
+                //document.getElementsByTagName("info")[0].innerHTML = userData.name;
+                //document.getElementsByTagName("coin")[0].innerHTML = userData.coin+"k";
+
+                navIcons = document.getElementsByClassName("ion-navicon");
+                for (i = 0; i < navIcons.length; i++) navIcons[i].classList.remove("ng-hide");
+
+                $state.go('tab.login');
+            }
+        })
+    }
+})
+
 
 .controller('AccountCtrl', function($scope, $state, $stateParams, $ionicPopup, $interval, $timeout, $ionicNavBarDelegate, $ionicLoading) {
     $ionicNavBarDelegate.showBackButton(false);
@@ -603,7 +800,9 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
             showDelay: 0
         });
         $timeout(function() {
-            console.log(userData);
+//            console.log(userData);
+	    userData.password = '';
+	    userData.rank = '';
             $scope.account = userData;
             $ionicLoading.hide();
         }, 1000);

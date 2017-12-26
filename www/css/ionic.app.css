@@ -97,6 +97,8 @@ ion-list .list ion-item:first-child .item-content{padding-right:10px!important}
 /*.list-today .item{background:#f9eaea;border-top:1px solid #fadada!important}
 */.list-today .item{background:#dffada;border-top:1px solid #cfedc5!important;position:relative;}
 .list-today .item:after{content:'[HÔM NAY]';position:absolute;top:15px;right:10px;font-size:11px}
+.list-notSeen .item{background:#dffada;border-top:1px solid #cfedc5!important;position:relative;}
+.list-notSeen .item:after{content:'[CHƯA SỬ DỤNG]';position:absolute;top:15px;right:10px;font-size:11px}
 .back-button:not(.hide)+.buttons.buttons-left{display:none!important}
 .list-myPriority .item{background:#f9eaea;border-top:1px solid #fadada!important;position:relative;}
 .list-myPriority .item:after{content:'[ƯU TIÊN]';position:absolute;top:15px;right:10px;font-size:11px}
