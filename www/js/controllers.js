@@ -43,7 +43,7 @@ angular.module('starter.controllers', [])
             });
     PromotionService.getAll(userData.id).then(function(response) {
         $timeout(function() {
-            $scope.promotions_notSeen = response.notSeen; //Assign data received to $scope.data  
+            $scope.promotions_notSeen = response.notSeen; //Assign data received to $scope.data
             $scope.promotions_others = response.others;
 	    console.log(response)
             $ionicLoading.hide();
@@ -236,15 +236,17 @@ angular.module('starter.controllers', [])
         if (from && to && seat) {
             var frAr = from.split(',');
             var toAr = to.split(',');
-            var fromDistrict = frAr[frAr.length-3].trim(); // quận đi
-            var toDistrict = toAr[toAr.length-3].trim(); // quận đến
+            console.log(from+' ~~~~~');
+            console.log(frAr);
+            var fromDistrict = frAr[frAr.length-2].trim(); // quận đi
+            var toDistrict = toAr[toAr.length-2].trim(); // quận đến
 
             distance = document.getElementById('box-search-one-distance').innerHTML;
             var mult = 10;
             if (seat == 7) mult =12;
 	    if (seat == 16) mult = 999;
             var priceThisTrip = parseFloat(distance)*mult;
-            
+
 	    if ((fromDistrict == 'Cầu Giấy' || fromDistrict == 'Đống Đa' || fromDistrict == 'Ba Đình' || fromDistrict == 'Hai Bà Trưng' || fromDistrict == 'Nam Từ Liêm' || fromDistrict == 'Bắc Từ Liêm' ) && toDistrict == 'Sóc Sơn')
 	    {
 		if(seat == 4 || seat == 5)
@@ -254,7 +256,7 @@ angular.module('starter.controllers', [])
 	    }
 
 	    if ((toDistrict == 'Cầu Giấy' || toDistrict == 'Đống Đa' || toDistrict == 'Ba Đình' || toDistrict == 'Hai Bà Trưng' || toDistrict == 'Nam Từ Liêm' || toDistrict == 'Bắc Từ Liêm' ) && fromDistrict == 'Sóc Sơn')
-	    {	
+	    {
 		if(seat == 4 || seat == 5)
 		{priceThisTrip = 250;}
 		else if(seat ==7)
@@ -615,18 +617,19 @@ if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
         var options = {componentRestrictions: {country: 'vn'}};
 //        $scope.map.controls[google.maps.ControlPosition.LEFT].push(sidebar);
 
-var autocomplete_from = new google.maps.places.Autocomplete(from, options);
-var autocomplete_to = new google.maps.places.Autocomplete(to, options);
+        var autocomplete_from = new google.maps.places.Autocomplete(from, options);
+        var autocomplete_to = new google.maps.places.Autocomplete(to, options);
 
-/*autocomplete_from.bindTo('bounds', $scope.map);
-autocomplete_to.bindTo('bounds', $scope.map);
-*/
-google.maps.event.addDomListener(from, 'keydown', function(e) {
-    console.log('keydown!')
-    if (e.keyCode == 13 && $('.pac-container:visible').length) {
-        e.preventDefault();
-    }
-});
+        /*autocomplete_from.bindTo('bounds', $scope.map);
+        autocomplete_to.bindTo('bounds', $scope.map);
+        */
+        google.maps.event.addDomListener(from, 'keydown', function(e) {
+            console.log('keydown!')
+            /*var pacContainers = document.getElementsByClassName('pac-container');
+            if (e.keyCode == 13 && element.offsetWidth > 0 && element.offsetHeight > 0) {
+                e.preventDefault();
+            }*/
+        });
         google.maps.event.trigger(to, 'keydown', function(e) {
             console.log(e.keyCode);
             if(e.keyCode===13 && !e.triggered){
