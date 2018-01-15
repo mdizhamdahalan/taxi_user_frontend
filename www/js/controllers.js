@@ -710,6 +710,7 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
 })
 
 .controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state, $ionicSideMenuDelegate, $ionicNavBarDelegate, $ionicHistory, $rootScope) {
+    $ionicSideMenuDelegate.canDragContent(false);
     $ionicNavBarDelegate.showBackButton(false);
     $scope.data = {};
     $scope.login = function() {
@@ -740,6 +741,8 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
                 //document.getElementsByTagName("info")[0].innerHTML = userData.name;
                 //document.getElementsByTagName("coin")[0].innerHTML = userData.coin+"k";
 
+                $ionicSideMenuDelegate.canDragContent(true);
+                $ionicNavBarDelegate.showBackButton(true);
                 navIcons = document.getElementsByClassName("ion-navicon");
                 for (i = 0; i < navIcons.length; i++) navIcons[i].classList.remove("ng-hide");
 
