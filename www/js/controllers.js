@@ -19,9 +19,10 @@ angular.module('starter.controllers', [])
             $scope.log = 'Đăng nhập';
             $scope.link = "#tab/login";
             $scope.hide = "uuuuu";
+            document.getElementById('menu_reg').classList.remove('hide');
             return false;
         }
-        else {
+        if (userData && userData != null && userData != undefined) {
             /*for (i = 0; i < navIcons.length; i++) {
                 navIcons[i].classList.remove("ng-hide");
                 navIcons[i].classList.remove("hide");
@@ -31,11 +32,11 @@ angular.module('starter.controllers', [])
                 $rootScope.$emit('refreshedPressed');
             }
 
-	        $scope.theIntervalCheckAccount = $interval(function(){
-                AccountService.getUserData(userData.id);
-                $scope.log = 'Thoát';
-                $scope.link = "#tab/logout";
-                $scope.hide = "undefined";
+	        $scope.theIntervalCheckAccount = $interval(function() {
+                    AccountService.getUserData(userData.id);
+                    $scope.log = 'Thoát';
+                    $scope.link = "#tab/logout";
+                    $scope.hide = "undefined";
             }.bind(this), 1000);
 
 	        PromotionService.getAll(userData.id).then(function(response) {
