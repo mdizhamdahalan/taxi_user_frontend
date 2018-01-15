@@ -34,12 +34,19 @@
 		<ion-item id="menu_promo" ng-hide="{{hide != undefined}}" menu-close  href="#/tab/noti">
 		    Thông báo khuyến mãi <span style="color: red;"> <b>[{{promotions_total}}]</b> <span>
 		</ion-item>
-		<ion-item menu-close href="{{link}}">
+		<ion-item menu-close class="hidden hide ng-hide" href="{{link}}">
                     {{log}}
-                </ion-item>
+        </ion-item>
+		<ion-item id="menu_logout" ng-hide="{{hide == undefined}}" menu-close href="#/tab/logout">
+            Thoát
+        </ion-item>
+		<ion-item id="menu_login" ng-hide="{{hide == undefined}}" menu-close href="#/tab/login">
+            Đăng nhập
+        </ion-item>
 		<ion-item id="menu_reg" ng-hide="{{hide == undefined}}" menu-close href="#/tab/register">
-                    Đăng ký
-                </ione-item>
+            Đăng ký
+        </ion-item>
+
             </ion-list>
 	    </br>
 	    <center><b>Liên hệ: <a href="tel:+842466661669">024.6666.1669</a></b></center></br>

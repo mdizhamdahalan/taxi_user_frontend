@@ -21,10 +21,17 @@ angular.module('starter.controllers', [])
             $scope.log = 'Đăng nhập';
             $scope.link = "#tab/login";
             $scope.hide = "uuuuu";
+
+            document.getElementById('menu_hist').classList.add('hide');
+            document.getElementById('menu_promo').classList.add('hide');
+            document.getElementById('menu_logout').classList.add('hide');
             document.getElementById('menu_reg').classList.remove('hide');
+            document.getElementById('menu_login').classList.remove('hide');
+        
             return false;
         }
-        if (userData && userData != null && userData != undefined) {
+        //if (userData && userData != null && userData != undefined) {
+        else {
             /*for (i = 0; i < navIcons.length; i++) {
                 navIcons[i].classList.remove("ng-hide");
                 navIcons[i].classList.remove("hide");
@@ -34,14 +41,20 @@ angular.module('starter.controllers', [])
                 $rootScope.$emit('refreshedPressed');
             }
 
-	        //$scope.theIntervalCheckAccount = $interval(function() {
+            document.getElementById('menu_hist').classList.remove('hide');
+            document.getElementById('menu_promo').classList.remove('hide');
+            document.getElementById('menu_reg').classList.add('hide');
+            document.getElementById('menu_login').classList.add('hide');
+            document.getElementById('menu_logout').classList.remove('hide');
+
+	        $scope.theIntervalCheckAccount = $interval(function() {
                 if (userData) {
                     AccountService.getUserData(userData.id);
                     $scope.log = 'Thoát';
                     $scope.link = "#tab/logout";
                     $scope.hide = "undefined";
                 }
-            //}.bind(this), 1000);
+            }.bind(this), 1000);
 
 	        PromotionService.getAll(userData.id).then(function(response) {
                 $timeout(function() {
@@ -739,7 +752,9 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
 
     document.getElementById('menu_hist').classList.add('hide');
     document.getElementById('menu_promo').classList.add('hide');
+    document.getElementById('menu_logout').classList.add('hide');
     document.getElementById('menu_reg').classList.remove('hide');
+    document.getElementById('menu_login').classList.remove('hide');
 
     $state.go('tab.map');
 })
@@ -802,7 +817,9 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
                 document.getElementById('menu_hist').classList.remove('hide');
                 document.getElementById('menu_promo').classList.remove('hide');
                 document.getElementById('menu_reg').classList.add('hide');
-            
+                document.getElementById('menu_login').classList.add('hide');
+                document.getElementById('menu_logout').classList.remove('hide');
+
                 $state.go('tab.map');
             }
         })
