@@ -7,10 +7,10 @@ angular.module('starter.controllers', [])
     $scope.theIntervalCheckAccount = null;
     if (!userData) {
         $ionicLoading.hide();
-        /*$state.go('tab.map');
+        //$state.go('tab.map');
 	$scope.log = 'Đăng nhập';
 	$scope.link = "#tab/login";
-	$scope.hide = "uuuuu";*/
+	$scope.hide = "uuuuu";
         return false;
     }
     else{
@@ -134,7 +134,11 @@ angular.module('starter.controllers', [])
     });
 })
 
-.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $timeout, $interval, RequestService, $ionicPopup, ionicTimePicker, ionicDatePicker, $ionicLoading) {
+.controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $timeout, $interval, RequestService, $ionicPopup, ionicTimePicker, ionicDatePicker, $ionicLoading, $ionicNavBarDelegate) {
+    $ionicNavBarDelegate.showBackButton(false);
+    navIcons = document.getElementsByClassName("ion-navicon");
+    for (i = 0; i < navIcons.length; i++) navIcons[i].classList.remove("ng-hide");
+    
     var options = {timeout: 10000, enableHighAccuracy: true};
     markerArray = [];
 
@@ -705,7 +709,7 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
     window.localStorage.removeItem("session_user");
     userData = null;
     navIcons = document.getElementsByClassName("ion-navicon");
-    for (i = 0; i < navIcons.length; i++) navIcons[i].classList.add("ng-hide");
+    //for (i = 0; i < navIcons.length; i++) navIcons[i].classList.add("ng-hide");
     $state.go('tab.map');
 })
 
@@ -742,7 +746,7 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
                 //document.getElementsByTagName("coin")[0].innerHTML = userData.coin+"k";
 
                 $ionicSideMenuDelegate.canDragContent(true);
-                $ionicNavBarDelegate.showBackButton(true);
+                //$ionicNavBarDelegate.showBackButton(true);
                 navIcons = document.getElementsByClassName("ion-navicon");
                 for (i = 0; i < navIcons.length; i++) navIcons[i].classList.remove("ng-hide");
 
