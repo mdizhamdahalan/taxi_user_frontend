@@ -28,16 +28,16 @@
 	        <ion-item menu-close href="#/tab/info">
                     Giới thiệu
                 </ion-item>
-		<ion-item ng-hide="{{hide != undefined}}" menu-close href="#/tab/bookhistory">
+		<ion-item id="menu_hist" ng-hide="{{hide != undefined}}" menu-close href="#/tab/bookhistory">
 		    Lịch sử đặt chuyến
                 </ion-item>
-		<ion-item ng-hide="{{hide != undefined}}" menu-close  href="#/tab/noti">
+		<ion-item id="menu_promo" ng-hide="{{hide != undefined}}" menu-close  href="#/tab/noti">
 		    Thông báo khuyến mãi <span style="color: red;"> <b>[{{promotions_total}}]</b> <span>
 		</ion-item>
 		<ion-item menu-close href="{{link}}">
                     {{log}}
                 </ion-item>
-		<ion-item ng-hide="{{hide == undefined}}" menu-close href="#/tab/register">
+		<ion-item id="menu_reg" ng-hide="{{hide == undefined}}" menu-close href="#/tab/register">
                     Đăng ký
                 </ione-item>
             </ion-list>

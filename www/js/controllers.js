@@ -729,10 +729,13 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
         navIcons[i].classList.remove("hide");
         console.log(navIcons[i]);
     }*/
+    $scope.log = 'Đăng nhập';
+    $scope.link = "#tab/login";
+    $scope.hide = "uuuuu";
     $state.go('tab.map');
 })
 
-.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state, $ionicSideMenuDelegate, $ionicNavBarDelegate, $ionicHistory, $rootScope) {
+.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state, $ionicSideMenuDelegate, $ionicNavBarDelegate, $ionicHistory, $rootScope, $interval) {
     //$ionicSideMenuDelegate.canDragContent(false);
     $ionicNavBarDelegate.showBackButton(false);
     $scope.data = {};
@@ -771,13 +774,29 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
                     navIcons[i].classList.remove("hide");
                 }
 
+                $scope.theIntervalCheckAccount = null;
+                $scope.theIntervalCheckAccount = $interval(function(){
+                    AccountService.getUserData(userData.id);
+                    $scope.log = 'Thoát';
+                    $scope.link = "#tab/logout";
+                    $scope.hide = "undefined";
+                }.bind(this), 1000);
+    
+                PromotionService.getAll(userData.id).then(function(response) {
+                    $timeout(function() {
+                        $scope.promotions_total = response.total;
+    
+                        $ionicLoading.hide();
+                    }, 1000);
+                });
+        
                 $state.go('tab.map');
             }
         })
     }
 })
 
-.controller('RegisterCtrl', function($scope, RegisterService, $ionicPopup, $state, $ionicSideMenuDelegate, $ionicNavBarDelegate, $ionicHistory, $rootScope) {
+.controller('RegisterCtrl', function($scope, RegisterService, $ionicPopup, $state, $ionicSideMenuDelegate, $ionicNavBarDelegate, $ionicHistory, $rootScope, $interval) {
     $ionicNavBarDelegate.showBackButton(false);
     $scope.data = {};
     $scope.register = function() {
