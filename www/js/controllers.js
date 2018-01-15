@@ -7,10 +7,10 @@ angular.module('starter.controllers', [])
     $scope.theIntervalCheckAccount = null;
     if (!userData) {
         $ionicLoading.hide();
-        $state.go('tab.map');
+        /*$state.go('tab.map');
 	$scope.log = 'Đăng nhập';
 	$scope.link = "#tab/login";
-	$scope.hide = "uuuuu";
+	$scope.hide = "uuuuu";*/
         return false;
     }
     else{
