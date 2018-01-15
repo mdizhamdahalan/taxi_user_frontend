@@ -715,7 +715,11 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
     window.localStorage.removeItem("session_user");
     userData = null;
     navIcons = document.getElementsByClassName("ion-navicon");
-    //for (i = 0; i < navIcons.length; i++) navIcons[i].classList.add("ng-hide");
+    for (i = 0; i < navIcons.length; i++) {
+        navIcons[i].classList.remove("ng-hide");
+        navIcons[i].classList.remove("hide");
+        console.log(navIcons[i]);
+    }
     $state.go('tab.map');
 })
 
