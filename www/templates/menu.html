@@ -34,11 +34,11 @@
 		<ion-item id="menu_promo" ng-hide="{{hide != undefined}}" menu-close  href="#/tab/noti">
 		    Thông báo khuyến mãi <span style="color: red;"> <b>[{{promotions_total}}]</b> <span>
 		</ion-item>
+		<ion-item id="menu_logout" ng-hide="{{hide != undefined}}" menu-close href="#/tab/logout">
+            Thoát
+        </ion-item>
 		<ion-item menu-close class="hidden hide ng-hide" href="{{link}}">
                     {{log}}
-        </ion-item>
-		<ion-item id="menu_logout" ng-hide="{{hide == undefined}}" menu-close href="#/tab/logout">
-            Thoát
         </ion-item>
 		<ion-item id="menu_login" ng-hide="{{hide == undefined}}" menu-close href="#/tab/login">
             Đăng nhập
