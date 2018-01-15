@@ -2,9 +2,9 @@ angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicSideMenuDelegate, $state, $ionicHistory, PromotionService, $rootScope, $timeout, $ionicLoading, $location, $interval, AccountService) {
     //navIcons = document.getElementsByTagName("button");
+    $scope.userData = userData = JSON.parse(window.localStorage.getItem("session_user"));
 
     $scope.$on('$ionicView.loaded', function () {
-        $scope.userData = userData = JSON.parse(window.localStorage.getItem("session_user"));
 
         var navIcons = document.getElementsByClassName("ion-navicon");
         for (var i = 0; i < navIcons.length; i++) {
