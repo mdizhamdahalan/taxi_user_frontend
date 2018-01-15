@@ -6,48 +6,47 @@ angular.module('starter.controllers', [])
 
     $scope.$on('$ionicView.loaded', function () {
         var navIcons = document.getElementsByClassName("ion-navicon");
-        for (i = 0; i < navIcons.length; i++) {
-            navIcons[i].classList.remove("ng-hide");
+        for (var i = 0; i < navIcons.length; i++) {
+            //navIcons[i].classList.remove("ng-hide");
             navIcons[i].classList.remove("hide");
             console.log(navIcons[i]);
         }
-    })
     
-    $scope.theIntervalCheckAccount = null;
-    if (!userData) {
-        $ionicLoading.hide();
-        //$state.go('tab.map');
-	$scope.log = 'Đăng nhập';
-	$scope.link = "#tab/login";
-	$scope.hide = "uuuuu";
-        return false;
-    }
-    else{
-        /*for (i = 0; i < navIcons.length; i++) {
-            navIcons[i].classList.remove("ng-hide");
-            navIcons[i].classList.remove("hide");
-        }*/
+        $scope.theIntervalCheckAccount = null;
+        if (!userData) {
+            $ionicLoading.hide();
+            //$state.go('tab.map');
+            $scope.log = 'Đăng nhập';
+            $scope.link = "#tab/login";
+            $scope.hide = "uuuuu";
+            return false;
+        }
+        else {
+            /*for (i = 0; i < navIcons.length; i++) {
+                navIcons[i].classList.remove("ng-hide");
+                navIcons[i].classList.remove("hide");
+            }*/
             $scope.reload = function() {
                 // Your refresh code
                 $rootScope.$emit('refreshedPressed');
             }
 
-	$scope.theIntervalCheckAccount = $interval(function(){
+	        $scope.theIntervalCheckAccount = $interval(function(){
                 AccountService.getUserData(userData.id);
-		$scope.log = 'Thoát';
-		$scope.link = "#tab/logout";
-		$scope.hide = "undefined";
+                $scope.log = 'Thoát';
+                $scope.link = "#tab/logout";
+                $scope.hide = "undefined";
             }.bind(this), 1000);
 
-	PromotionService.getAll(userData.id).then(function(response) {
+	        PromotionService.getAll(userData.id).then(function(response) {
                 $timeout(function() {
                     $scope.promotions_total = response.total;
 
                     $ionicLoading.hide();
                 }, 1000);
-                });
-
-    }
+            });
+        }
+    });
 
 })
 
@@ -767,13 +766,10 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
 
                 //$ionicSideMenuDelegate.canDragContent(true);
                 //$ionicNavBarDelegate.showBackButton(true);
-                /*var navIcons = document.getElementsByClassName("ion-navicon");
-                console.log(navIcons);
-                for (i = 0; i < navIcons.length; i++) {
-                    navIcons[i].classList.remove("ng-hide");
+                var navIcons = document.getElementsByClassName("ion-navicon");
+                for (var i = 0; i < navIcons.length; i++) {
                     navIcons[i].classList.remove("hide");
-                    console.log(navIcons[i]);
-                }*/
+                }
 
                 $state.go('tab.map');
             }
