@@ -17,7 +17,7 @@ angular.module('starter.services', [])
     return {
         request: function(formData) {
             return $http.post(MAIN_URL+"/trip_add.php", formData).then(function(response) {
-                console.log(response);
+                //console.log(response);
                 return response.data;
             });
         }
@@ -34,7 +34,7 @@ angular.module('starter.services', [])
 		    phone: phone,
 		    address: address
                 }).then(function(response) {
-                    console.log(response.data);
+                    //console.log(response.data);
                     window.localStorage.setItem("session_user", JSON.stringify(response.data));
                     return response.data;
                 });
@@ -46,7 +46,7 @@ angular.module('starter.services', [])
     return {
 /*        checkLogin: function() {
             return $http.get(MAIN_URL+"/login_check.php").then(function(response) {
-                //    console.log(response);
+                //    //console.log(response);
                     return response.data;
                 });
         }
@@ -56,7 +56,7 @@ angular.module('starter.services', [])
                     username: name,
                     password: pw
                 }).then(function(response) {
-                    console.log(response);
+                    //console.log(response);
                     window.localStorage.setItem("session_user", JSON.stringify(response.data));
                     return response.data;
                 });
@@ -84,7 +84,7 @@ angular.module('starter.services', [])
     return {
         getUserData: function(userid) {
             return $http.post(MAIN_URL+"/getUserData.php", {id: userid}).then(function(response) {
-               // console.log(response);
+               // //console.log(response);
                 if (response.data != -1) {
                     window.localStorage.setItem("session_user", JSON.stringify(response.data));
                 }
@@ -135,7 +135,7 @@ angular.module('starter.services', [])
       return $http.post(MAIN_URL+"/paycoin_all.php", {taxiid: taxiID})
                 .then(function(response) {
         			histories = response.data;
-                    console.log(histories);
+                    //console.log(histories);
         			return histories;
         		});
     },
@@ -158,7 +158,7 @@ angular.module('starter.services', [])
       return $http.post(MAIN_URL+"/infrienge_all.php", {taxiid: taxiID})
                 .then(function(response) {
         			infrienges = response.data;
-                    console.log(infrienges);
+                    //console.log(infrienges);
         			return infrienges;
         		});
     },
@@ -179,7 +179,7 @@ angular.module('starter.services', [])
       return $http.post(MAIN_URL+"/promotion_all.php", {userID: userID})
                 .then(function(response) {
                                 promotions = response.data;
-//	                        console.log(promotions);
+//	                        //console.log(promotions);
                                 return promotions;
                         });
     },
@@ -187,7 +187,7 @@ angular.module('starter.services', [])
     getOne: function(pID) {
         return $http.post(MAIN_URL+"/promotion_one.php", {id: pID})
                 .then(function(response) {
-                                console.log(response);
+                                //console.log(response);
                                 promotion = response.data;
                                 return promotion;
                 });
@@ -202,7 +202,7 @@ angular.module('starter.services', [])
       return $http.post(MAIN_URL+"/bookhistory_all.php", {userid: userID})
                 .then(function(response) {
                                 trips = response.data;
-	                        console.log(trips);
+	                        //console.log(trips);
                                 return trips;
                         });
     }

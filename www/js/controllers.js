@@ -13,7 +13,7 @@ angular.module('starter.controllers', [])
             //console.log(navIcons[i]);
         }
     
-        console.log(userData);
+        //console.log(userData);
         $scope.theIntervalCheckAccount = null;
         if (!userData) {
             $ionicLoading.hide();
@@ -428,12 +428,12 @@ if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
         details = document.getElementById('details').value;
         PNR = document.getElementById('PNR').value;
         var priceThisTrip = document.getElementById('price').value;
-//        console.log(priceThisTrip+' ~ ');
+//        //console.log(priceThisTrip+' ~ ');
 	var userData = JSON.parse(window.localStorage.getItem("session_user"));
 	if (userData){
 		userid = userData.id;
 	}
-//	console.log(userData);
+//	//console.log(userData);
         //console.log(name+' '+phone+' '+from+' '+to+' '+seat+' '+guess_num+' '+PNR);
         if (name && phone && from && to && seat > 0 && guess_num > 0 && time && priceThisTrip) {
         if (userData){
@@ -467,9 +467,9 @@ if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
                 'details': details
             	};
 	    }
-//            console.log(formData);
+//            //console.log(formData);
             RequestService.request(formData).then(function(data) {
-//                console.log(data);
+//                //console.log(data);
                 if (data == 1) {
                     var alertPopup = $ionicPopup.alert({
                         title: 'Thành công!',
@@ -484,7 +484,7 @@ if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
                         }]
                     });
                     alertPopup.then(function(res) {
-//                        console.log('Success!', res);
+//                        //console.log('Success!', res);
                         if (res == 1) {
                             /*detailsForm = document.getElementById('trip-user-details');
                             detailsForm.classList.remove('active');
@@ -589,10 +589,10 @@ if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
 
 					$scope.calculateAndDisplayRoute(directionsDisplay, directionsService, stepDisplay, map);
 				} else {
-					console.log('No results found');
+					//console.log('No results found');
 				}
 			} else {
-				console.log('Geocoder failed due to: ' + status);
+				//console.log('Geocoder failed due to: ' + status);
 			}
 		});
 
@@ -744,7 +744,7 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
     for (i = 0; i < navIcons.length; i++) {
         navIcons[i].classList.remove("ng-hide");
         navIcons[i].classList.remove("hide");
-        console.log(navIcons[i]);
+        //console.log(navIcons[i]);
     }*/
     $scope.log = 'Đăng nhập';
     $scope.link = "#tab/login";
@@ -765,7 +765,7 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
     $scope.data = {};
     $scope.login = function() {
         LoginService.loginUser($scope.data.username, $scope.data.password).then(function(data) {
-//            console.log(data);
+//            //console.log(data);
             if (data == -1) {
                 var alertPopup = $ionicPopup.alert({
                     title: 'Lỗi!',
@@ -831,7 +831,7 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
     $scope.data = {};
     $scope.register = function() {
         RegisterService.registerUser($scope.data.username, $scope.data.password, $scope.data.phone, $scope.data.address).then(function(data) {
-//            console.log(data);
+//            //console.log(data);
             if (data == -1) {
                 var alertPopup = $ionicPopup.alert({
                     title: 'Lỗi!',
@@ -883,7 +883,7 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
             showDelay: 0
         });
         $timeout(function() {
-            console.log(userData);
+            //console.log(userData);
             $scope.account = userData;
             $ionicLoading.hide();
         }, 1000);
@@ -927,7 +927,7 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
             $scope.promotions_others = response.others; //Assign data received to $scope.data
 	    $scope.promotions_notSeen = response.notSeen;
 //	    $scope.promotions_total = response.total;
-//	    console.log($scope.promotions_total);
+//	    //console.log($scope.promotions_total);
             $ionicLoading.hide();
         }, 1000);
     });
@@ -956,7 +956,7 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
     PromotionService.getOne($scope.pID).then(function(response) {
         $timeout(function() {
             $scope.promotion = response; //Assign data received to $scope.data
-	    console.log(response);
+	    //console.log(response);
             $ionicLoading.hide();
         }, 1000);
     });
