@@ -1,10 +1,11 @@
 angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicSideMenuDelegate, $state, $ionicHistory, PromotionService, $rootScope, $timeout, $ionicLoading, $location, $interval, AccountService) {
-    $scope.userData = userData = JSON.parse(window.localStorage.getItem("session_user"));
     //navIcons = document.getElementsByTagName("button");
 
     $scope.$on('$ionicView.loaded', function () {
+        $scope.userData = userData = JSON.parse(window.localStorage.getItem("session_user"));
+
         var navIcons = document.getElementsByClassName("ion-navicon");
         for (var i = 0; i < navIcons.length; i++) {
             //navIcons[i].classList.remove("ng-hide");
@@ -12,6 +13,7 @@ angular.module('starter.controllers', [])
             //console.log(navIcons[i]);
         }
     
+        console.log(userData);
         $scope.theIntervalCheckAccount = null;
         if (!userData) {
             $ionicLoading.hide();
@@ -32,12 +34,14 @@ angular.module('starter.controllers', [])
                 $rootScope.$emit('refreshedPressed');
             }
 
-	        $scope.theIntervalCheckAccount = $interval(function() {
+	        //$scope.theIntervalCheckAccount = $interval(function() {
+                if (userData) {
                     AccountService.getUserData(userData.id);
                     $scope.log = 'Thoát';
                     $scope.link = "#tab/logout";
                     $scope.hide = "undefined";
-            }.bind(this), 1000);
+                }
+            //}.bind(this), 1000);
 
 	        PromotionService.getAll(userData.id).then(function(response) {
                 $timeout(function() {
@@ -722,7 +726,7 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
 .controller('LogoutCtrl', function($scope, $ionicPopup, $state, $ionicNavBarDelegate) {
     $ionicNavBarDelegate.showBackButton(false);
     window.localStorage.removeItem("session_user");
-    userData = null;
+    $scope.userData = userData = null;
     /*navIcons = document.getElementsByClassName("ion-navicon");
     for (i = 0; i < navIcons.length; i++) {
         navIcons[i].classList.remove("ng-hide");
