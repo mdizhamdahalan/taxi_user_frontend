@@ -732,6 +732,11 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
     $scope.log = 'Đăng nhập';
     $scope.link = "#tab/login";
     $scope.hide = "uuuuu";
+
+    document.getElementById('menu_hist').classList.add('hide');
+    document.getElementById('menu_promo').classList.add('hide');
+    document.getElementById('menu_reg').classList.remove('hide');
+
     $state.go('tab.map');
 })
 
@@ -789,7 +794,11 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
                         $ionicLoading.hide();
                     }, 1000);
                 });
-        
+
+                document.getElementById('menu_hist').classList.remove('hide');
+                document.getElementById('menu_promo').classList.remove('hide');
+                document.getElementById('menu_reg').classList.add('hide');
+            
                 $state.go('tab.map');
             }
         })
