@@ -1,14 +1,19 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ionicframework.myapp349693" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>myapp</name>
+<widget id="com.dongduong.taxi_user349693" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Đặt xe taxi</name>
     <description>
         An Ionic Framework and Cordova project.
     </description>
     <author email="you@example.com" href="http://example.com.com/">
       Your Name Here
     </author>
-    <content src="index.html" />
+    <content origin-src="index.html" src="http://datxenoibai.com:8200" />
     <access origin="*" />
+    <allow-intent href="mailto:*" />
+    <allow-navigation href="http://*/*" />
+    <allow-navigation href="http://45.119.83.5:8200" />
+    <allow-navigation href="http://www.datxenoibai.com:8200" />
+    <allow-navigation href="http://datxenoibai.com:8200" />
     <allow-intent href="mailto:*" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
@@ -40,14 +45,11 @@
         <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
-    <allow-navigation href="http://*/*" />
-    <allow-navigation href="http://192.168.43.43:8101" />
-    <allow-navigation href="http://192.168.43.43:8100" />
     <engine name="android" spec="^6.2.3" />
     <engine name="ios" spec="^4.4.0" />
-    <plugin name="cordova-plugin-google-analytics" spec="^1.8.3" />
-    <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
     <plugin name="cordova-plugin-geolocation" spec="^2.4.3">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value=" " />
     </plugin>
+    <plugin name="cordova-plugin-google-analytics" spec="^1.8.3" />
+    <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
 </widget>
