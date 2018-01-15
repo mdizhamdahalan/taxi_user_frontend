@@ -1,0 +1,19 @@
+<ion-view view-title="Chi tiết khuyến mãi">
+  <ion-content>
+    <div class="oneHistory item item-remove-animate hist-item" id="view_inf_{{promotion.id}}" type="item-text-wrap">
+        <h3 class="history-title center">
+            <b>Thời gian bắt đầu:  {{promotion.timeFrom}}</b>
+        </h3>
+	<h3 class="history-title center">
+            <b>Thời gian kết thúc: {{promotion.timeTo}}</b>
+        </h3>
+
+        <div class="trip-details">
+            <p class="trip-one-details" style="height: 100px;">
+                {{promotion.details}}
+            </p>
+        </div>
+    </div>
+  </ion-content>
+</ion-view>
+

@@ -117,6 +117,14 @@ angular.module('starter', ['ionic', 'chart.js', 'starter.controllers', 'starter.
 		}
 })
 
+.state('tab.tableprice', {
+                url: '/tableprice',
+                views: {
+                        'menuContent': {
+                                templateUrl: 'templates/tab-price.html',
+                        }
+                }
+})
 
 	.state('tab.noti', {
 		url: '/noti',
@@ -138,7 +146,15 @@ angular.module('starter', ['ionic', 'chart.js', 'starter.controllers', 'starter.
                 }
         })
 
-
+	.state('tab.bookhistory', {
+                url: '/bookhistory',
+                views: {
+                        'menuContent': {
+                                templateUrl: 'templates/tab-bookhistory.html',
+                                controller: 'BookHistoryCtrl'
+                        }
+                }
+})
 	.state('tab.account', {
 		url: '/account',
 		views: {

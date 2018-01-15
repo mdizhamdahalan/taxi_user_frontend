@@ -1,0 +1,31 @@
+<ion-view view-title="Thông báo khuyến mãi">
+  <ion-content>
+    <div class="list-others">
+      <a class="item item-remove-animate trip-item item-avatar" ng-repeat="oneTrip in promotions" type="item-text-wrap">
+        <pricebuy class="trip-pricecoin">
+            {{oneTrip.price-oneTrip.coin}}<span class="small">k</span>
+        </pricebuy>
+        <p class="animated fadeIn">
+            <span class="trip-time">{{oneTrip.time}}</span>
+        </p>
+        <h3 class="trip-destinations">
+            <b>{{oneTrip.addressfrom}}</b>
+            <i class="ion-arrow-right-a" ng-show="{{oneTrip.is_one_round}}"></i>
+            <i class="ion-arrow-swap" ng-show="{{oneTrip.is_round}}"></i>
+            <b>{{oneTrip.addressto}}</b>
+        </h3>
+        <div class="trip-info">
+            <span class="trip-seat">{{oneTrip.seat}} chỗ</span>
+            <span class="trip-num_guess">{{oneTrip.num_guess}} khách</span>
+	    
+            <span class="trip-is_round">{{oneTrip.is_round_txt}}</span>
+        </div>
+	<div class="trip-info">
+	    <span class="trip-seat">Tên khách hàng: {{oneTrip.name}} </span>
+	    <span class="trip-num_guess">Số điện thoại: {{oneTrip.phone}} </span>
+	</div>
+     </a>
+    </div>
+    </br><b>Đông Dương D.C - Xin kính chào.</b></br>
+  </ion-content>
+</ion-view>

@@ -84,7 +84,7 @@ angular.module('starter.services', [])
     return {
         getUserData: function(userid) {
             return $http.post(MAIN_URL+"/getUserData.php", {id: userid}).then(function(response) {
-                //console.log(response);
+               // console.log(response);
                 if (response.data != -1) {
                     window.localStorage.setItem("session_user", JSON.stringify(response.data));
                 }
@@ -179,7 +179,7 @@ angular.module('starter.services', [])
       return $http.post(MAIN_URL+"/promotion_all.php", {userID: userID})
                 .then(function(response) {
                                 promotions = response.data;
-                    console.log(promotions);
+//	                        console.log(promotions);
                                 return promotions;
                         });
     },
@@ -195,3 +195,16 @@ angular.module('starter.services', [])
   };
 })
 
+.factory('BookHistoryService', function($http) {
+  var trips = [];
+  return {
+    getAll: function(userID) {
+      return $http.post(MAIN_URL+"/bookhistory_all.php", {userid: userID})
+                .then(function(response) {
+                                trips = response.data;
+	                        console.log(trips);
+                                return trips;
+                        });
+    }
+  };
+})

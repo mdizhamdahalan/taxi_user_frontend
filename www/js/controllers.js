@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicSideMenuDelegate, $state, $ionicHistory, $rootScope, $timeout, $ionicLoading, $location, $interval, AccountService) {
+.controller('AppCtrl', function($scope, $ionicSideMenuDelegate, $state, $ionicHistory, PromotionService, $rootScope, $timeout, $ionicLoading, $location, $interval, AccountService) {
     $scope.userData = userData = JSON.parse(window.localStorage.getItem("session_user"));
     navIcons = document.getElementsByTagName("button");
 
@@ -11,7 +11,6 @@ angular.module('starter.controllers', [])
 	$scope.log = 'Đăng nhập';
 	$scope.link = "#tab/login";
 	$scope.hide = "uuuuu";
-//	$scope.register = "Đăng ký";
         return false;
     }
     else{
@@ -27,34 +26,17 @@ angular.module('starter.controllers', [])
 		$scope.link = "#tab/logout";
 		$scope.hide = "undefined";
             }.bind(this), 1000);
+
+	PromotionService.getAll(userData.id).then(function(response) {
+                $timeout(function() {
+                    $scope.promotions_total = response.total;
+
+                    $ionicLoading.hide();
+                }, 1000);
+                });
+
     }
 
-})
-
-.controller('PromotionCtrl', function($scope, $state, PromotionService, $ionicPopup, $interval, $timeout, $ionicNavBarDelegate, $ionicLoading) {  $ionicNavBarDelegate.showBackButton(false);
-    $scope.userData = userData = JSON.parse(window.localStorage.getItem("session_user"));
-    $scope.refreshItems = function () {
-         $ionicLoading.show({
-                content: 'Loading',
-                animation: 'fade-in',
-                showBackdrop: true,
-                maxWidth: 200,
-                showDelay: 0
-            });
-    PromotionService.getAll(userData.id).then(function(response) {
-        $timeout(function() {
-            $scope.promotions_notSeen = response.notSeen; //Assign data received to $scope.data
-            $scope.promotions_others = response.others;
-	    console.log(response)
-            $ionicLoading.hide();
-        }, 1000);
-    });
-        }
-
-         $scope.refreshItems();
-    $scope.view = function(pID) {
-        $state.go('tab.promotion.view', {pID: pID});
-    }
 })
 
 .controller('TripsCtrl', function($scope, $state, TripsService, $ionicPopup, $interval, $timeout, $ionicNavBarDelegate, $ionicLoading, $location, $rootScope) {
@@ -103,8 +85,6 @@ angular.module('starter.controllers', [])
             });
 
             TripsService.getAll(userData.phone).then(function(response) {
-                console.log('hehe');
-                console.log(response);
                 var trips_num = response.total;
                 window.localStorage.setItem('trips_num', trips_num);
 
@@ -236,17 +216,15 @@ angular.module('starter.controllers', [])
         if (from && to && seat) {
             var frAr = from.split(',');
             var toAr = to.split(',');
-            console.log(from+' ~~~~~');
-            console.log(frAr);
-            var fromDistrict = frAr[frAr.length-2].trim(); // quận đi
-            var toDistrict = toAr[toAr.length-2].trim(); // quận đến
+            var fromDistrict = frAr[frAr.length-3].trim(); // quận đi
+            var toDistrict = toAr[toAr.length-3].trim(); // quận đến
 
             distance = document.getElementById('box-search-one-distance').innerHTML;
             var mult = 10;
             if (seat == 7) mult =12;
-	    if (seat == 16) mult = 999;
-            var priceThisTrip = parseFloat(distance)*mult;
 
+            var priceThisTrip = parseFloat(distance)*mult;
+	    if (seat==16) priceThisTrip=1;            
 	    if ((fromDistrict == 'Cầu Giấy' || fromDistrict == 'Đống Đa' || fromDistrict == 'Ba Đình' || fromDistrict == 'Hai Bà Trưng' || fromDistrict == 'Nam Từ Liêm' || fromDistrict == 'Bắc Từ Liêm' ) && toDistrict == 'Sóc Sơn')
 	    {
 		if(seat == 4 || seat == 5)
@@ -256,7 +234,7 @@ angular.module('starter.controllers', [])
 	    }
 
 	    if ((toDistrict == 'Cầu Giấy' || toDistrict == 'Đống Đa' || toDistrict == 'Ba Đình' || toDistrict == 'Hai Bà Trưng' || toDistrict == 'Nam Từ Liêm' || toDistrict == 'Bắc Từ Liêm' ) && fromDistrict == 'Sóc Sơn')
-	    {
+	    {	
 		if(seat == 4 || seat == 5)
 		{priceThisTrip = 250;}
 		else if(seat ==7)
@@ -414,11 +392,33 @@ if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
         is_round = document.getElementById('is_round').value;
         details = document.getElementById('details').value;
         PNR = document.getElementById('PNR').value;
-        priceThisTrip = document.getElementById('price').value;
-
+        var priceThisTrip = document.getElementById('price').value;
+//        console.log(priceThisTrip+' ~ ');
+	var userData = JSON.parse(window.localStorage.getItem("session_user"));
+	if (userData){
+		userid = userData.id;
+	}
+//	console.log(userData);
         //console.log(name+' '+phone+' '+from+' '+to+' '+seat+' '+guess_num+' '+PNR);
         if (name && phone && from && to && seat > 0 && guess_num > 0 && time && priceThisTrip) {
-            formData = {
+        if (userData){
+		formData = {
+                'name': name,
+                'phone': phone,
+                'from': from,
+                'to': to,
+                'seat': seat,
+                'guess_num': guess_num,
+                'PNR': PNR,
+                'time': time,
+                'price': priceThisTrip,
+                'is_round': is_round,
+                'details': details,
+		'userid': userid
+            	};
+	    }
+	else{
+	    	formData = {
                 'name': name,
                 'phone': phone,
                 'from': from,
@@ -430,10 +430,11 @@ if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
                 'price': priceThisTrip,
                 'is_round': is_round,
                 'details': details
-            };
-            //console.log(formData);
+            	};
+	    }
+//            console.log(formData);
             RequestService.request(formData).then(function(data) {
-                console.log(data);
+//                console.log(data);
                 if (data == 1) {
                     var alertPopup = $ionicPopup.alert({
                         title: 'Thành công!',
@@ -448,7 +449,7 @@ if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
                         }]
                     });
                     alertPopup.then(function(res) {
-                        console.log('Success!', res);
+//                        console.log('Success!', res);
                         if (res == 1) {
                             /*detailsForm = document.getElementById('trip-user-details');
                             detailsForm.classList.remove('active');
@@ -617,19 +618,18 @@ if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
         var options = {componentRestrictions: {country: 'vn'}};
 //        $scope.map.controls[google.maps.ControlPosition.LEFT].push(sidebar);
 
-        var autocomplete_from = new google.maps.places.Autocomplete(from, options);
-        var autocomplete_to = new google.maps.places.Autocomplete(to, options);
+var autocomplete_from = new google.maps.places.Autocomplete(from, options);
+var autocomplete_to = new google.maps.places.Autocomplete(to, options);
 
-        /*autocomplete_from.bindTo('bounds', $scope.map);
-        autocomplete_to.bindTo('bounds', $scope.map);
-        */
-        google.maps.event.addDomListener(from, 'keydown', function(e) {
-            console.log('keydown!')
-            /*var pacContainers = document.getElementsByClassName('pac-container');
-            if (e.keyCode == 13 && element.offsetWidth > 0 && element.offsetHeight > 0) {
-                e.preventDefault();
-            }*/
-        });
+/*autocomplete_from.bindTo('bounds', $scope.map);
+autocomplete_to.bindTo('bounds', $scope.map);
+*/
+google.maps.event.addDomListener(from, 'keydown', function(e) {
+    console.log('keydown!')
+    if (e.keyCode == 13 && $('.pac-container:visible').length) {
+        e.preventDefault();
+    }
+});
         google.maps.event.trigger(to, 'keydown', function(e) {
             console.log(e.keyCode);
             if(e.keyCode===13 && !e.triggered){
@@ -703,7 +703,7 @@ if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
 
 .controller('LogoutCtrl', function($scope, $ionicPopup, $state) {
     window.localStorage.removeItem("session_user");
-    userData = '';
+    userData = null;
     navIcons = document.getElementsByClassName("ion-navicon");
     for (i = 0; i < navIcons.length; i++) navIcons[i].classList.add("ng-hide");
     $state.go('tab.map');
@@ -753,9 +753,9 @@ if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
     $ionicNavBarDelegate.showBackButton(false);
     $scope.data = {};
     $scope.register = function() {
-        RegisterService.registerUser($scope.data.username, $scope.data.password, $scope.data.name, $scope.data.phone, $scope.data.address).then(function(data) {
-            console.log(data);
-	    if (data == -1) {
+        RegisterService.registerUser($scope.data.username, $scope.data.password, $scope.data.phone, $scope.data.address).then(function(data) {
+//            console.log(data);
+            if (data == -1) {
                 var alertPopup = $ionicPopup.alert({
                     title: 'Lỗi!',
                     template: 'Thiếu thông tin!',
@@ -764,8 +764,8 @@ if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
                           text: 'Đóng',
                           type: 'button-assertive'
                     }]
-               });
-            }else if (data == 0) {
+                });
+            } else if (data == 0) {
                 var alertPopup = $ionicPopup.alert({
                     title: 'Lỗi!',
                     template: 'Tên đăng nhập hoặc mật khẩu không đúng!',
@@ -803,11 +803,84 @@ if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
             showDelay: 0
         });
         $timeout(function() {
-//            console.log(userData);
-	    userData.password = '';
-	    userData.rank = '';
+            console.log(userData);
             $scope.account = userData;
             $ionicLoading.hide();
         }, 1000);
     }
-});
+})
+
+.controller('BookHistoryCtrl', function($scope, $state, BookHistoryService, $ionicPopup, $interval, $timeout, $ionicNavBarDelegate, $ionicLoading) {
+    $ionicNavBarDelegate.showBackButton(false);
+    $scope.userData = userData = JSON.parse(window.localStorage.getItem("session_user"));
+
+    $ionicLoading.show({
+        content: 'Loading',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+    });
+    BookHistoryService.getAll(userData.id).then(function(response) {
+        $timeout(function() {
+            $scope.trips = response; //Assign data received to $scope.data
+            $ionicLoading.hide();
+        }, 1000);
+    });
+})
+
+.controller('PromotionCtrl', function($scope, $state, PromotionService, $ionicPopup, $interval, $timeout, $ionicNavBarDelegate, $ionicLoading){
+    $ionicNavBarDelegate.showBackButton(false);
+    $scope.userData = userData = JSON.parse(window.localStorage.getItem("session_user"));
+
+    $ionicLoading.show({
+        content: 'Loading',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+    });
+
+    if (!$scope.userData){}
+    PromotionService.getAll(userData.id).then(function(response) {
+        $timeout(function() {
+            $scope.promotions_others = response.others; //Assign data received to $scope.data
+	    $scope.promotions_notSeen = response.notSeen;
+//	    $scope.promotions_total = response.total;
+//	    console.log($scope.promotions_total);
+            $ionicLoading.hide();
+        }, 1000);
+    });
+
+    $scope.view = function(pID) {
+        $state.go('tab.noti.view', {pID: pID});
+    }
+
+})
+
+.controller('PromotionViewCtrl', function($scope, $state, $stateParams, PromotionService, $ionicPopup, $interval, $ionicNavBarDelegate, $ionicLoading, $timeout) {
+    $ionicNavBarDelegate.showBackButton(true);
+    $scope.userData = userData = JSON.parse(window.localStorage.getItem("session_user"));
+
+    $ionicLoading.show({
+        content: 'Loading',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+    });
+    $scope.promotion  = {};
+    $scope.pID = $stateParams.pID;
+
+    // Get One
+    PromotionService.getOne($scope.pID).then(function(response) {
+        $timeout(function() {
+            $scope.promotion = response; //Assign data received to $scope.data
+	    console.log(response);
+            $ionicLoading.hide();
+        }, 1000);
+    });
+
+})
+
+

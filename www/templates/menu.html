@@ -12,7 +12,7 @@
 
     <ion-side-menu side="left">
         <ion-header-bar class="bar-stable">
-             <h1 class="title">Đông Dương D.C</h1>
+             <h1 class="title"><img src="http://datxenoibai.com/taxi.png" alt="Smiley face" height="26" width="26">Đặt xe Nội Bài</h1>
         </ion-header-bar>
         <ion-content>
             <ion-list>
@@ -22,17 +22,17 @@
                 <ion-item menu-close href="#/tab/map">
                     Đặt chuyến
                 </ion-item>
-                <ion-item menu-close href="https://docs.google.com/spreadsheets/d/11C6QqTFYFyNtwiqKYkfa5g_AkJkg3t1vUp6DXgVgdD4/edit#gid=1707284808">
+                <ion-item menu-close href="#/tab/tableprice">
                     Bảng giá
                 </ion-item>
-                <ion-item menu-close href="#/tab/info">
+	        <ion-item menu-close href="#/tab/info">
                     Giới thiệu
                 </ion-item>
-		<ion-item menu-close href="#/tab/">
+		<ion-item ng-hide="{{hide != undefined}}" menu-close href="#/tab/bookhistory">
 		    Lịch sử đặt chuyến
-		</ion-item>
-		<ion-item menu-close  href="#/tab/noti">
-		    Thông báo khuyến mãi <span style="color: red;"> <b>[{{promotions.total}}]</b> <span>
+                </ion-item>
+		<ion-item ng-hide="{{hide != undefined}}" menu-close  href="#/tab/noti">
+		    Thông báo khuyến mãi <span style="color: red;"> <b>[{{promotions_total}}]</b> <span>
 		</ion-item>
 		<ion-item menu-close href="{{link}}">
                     {{log}}
@@ -42,8 +42,8 @@
                 </ione-item>
             </ion-list>
 	    </br>
-	    <center>Liên hệ: <a href="tel:+842462810099">0246.281.0099</a></center></br>
-	    <center>Đông Dương D.C xin kính chào</center>
+	    <center><b>Liên hệ: <a href="tel:+842466661669">024.6666.1669</a></b></center></br>
+	    <center>(c) Đông Dương D.C</center>
         </ion-content>
     </ion-side-menu>
 </ion-side-menus>
