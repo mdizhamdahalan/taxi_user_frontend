@@ -9,7 +9,7 @@ angular.module('starter.controllers', [])
         for (var i = 0; i < navIcons.length; i++) {
             //navIcons[i].classList.remove("ng-hide");
             navIcons[i].classList.remove("hide");
-            console.log(navIcons[i]);
+            //console.log(navIcons[i]);
         }
     
         $scope.theIntervalCheckAccount = null;
@@ -65,7 +65,7 @@ angular.module('starter.controllers', [])
     $scope.check = function () {
         TripsService.countAll(userData.phone).then(function(num) {
             var trips_num = window.localStorage.getItem('trips_num');
-            console.log(num+' ~ '+trips_num);
+            //console.log(num+' ~ '+trips_num);
             if (num != trips_num) $scope.refreshItems();
         })
     }
@@ -127,8 +127,8 @@ angular.module('starter.controllers', [])
 
     TripsService.getOne($scope.tripID).then(function(response) {
         $timeout(function() {
-            console.log(response);
-            console.log('~~~');
+            //console.log(response);
+            //console.log('~~~');
             $scope.trip = response;
 
             if (response.is_round == 0) {
@@ -170,13 +170,13 @@ angular.module('starter.controllers', [])
         for (i = 0; i < container.length; i++) {
             container[i].setAttribute('data-tap-disabled', 'true');
         }
-        console.log('disableTap');
+        //console.log('disableTap');
     }
 
     var timePickerObj = {
         callback: function (val) {      //Mandatory
             if (typeof (val) === 'undefined') {
-                console.log('Time not selected');
+                //console.log('Time not selected');
             } else {
                 var selectedTime = new Date(val * 1000);
                 var min = selectedTime.getUTCMinutes();
@@ -196,7 +196,6 @@ angular.module('starter.controllers', [])
     var datePickerObj = {
         callback: function (val) {  //Mandatory
             var date = new Date(val);
-            console.log(date);
             var month = date.getMonth()+1;
             var day = date.getDate();
             if (month < 10) month = '0'+month;
@@ -377,7 +376,7 @@ if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
                 ]
             });
             alertPopup.then(function(res) {
-                console.log('Tapped!', res);
+                //console.log('Tapped!', res);
                 if (res == 1) {
                     detailsForm = document.getElementById('trip-user-details');
                     detailsForm.classList.add('active');
@@ -514,8 +513,8 @@ if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
     }
 
     $scope.calculateAndDisplayRoute = function (directionsDisplay, directionsService, stepDisplay, map) {
-        console.log(document.getElementById('start').value);
-        console.log(document.getElementById('end').value);
+        //console.log(document.getElementById('start').value);
+        //console.log(document.getElementById('end').value);
 
         // First, remove any existing markers from the map.
     	for (var i = 0; i < markerArray.length; i++) {
@@ -544,7 +543,7 @@ if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
     			document.getElementById('box-search-one-time').innerHTML = time;
     			document.getElementById('box-search-one-route').visibility = true;
     		} else {
-    			console.log('Directions request failed due to ' + status);
+    			//console.log('Directions request failed due to ' + status);
     		}
     	});
     }
@@ -603,7 +602,7 @@ if (toDistrict == 'Hoàng Mai' && fromDistrict == 'Sóc Sơn')
             map.setCenter(place.geometry.location);
             map.setZoom(10);
         }
-        console.log(place);
+        //console.log(place);
         if (type == 0) document.getElementById('start').value = place.formatted_address;
         else if (type == 1) document.getElementById('end').value = place.formatted_address;
 
@@ -643,13 +642,13 @@ var autocomplete_to = new google.maps.places.Autocomplete(to, options);
 autocomplete_to.bindTo('bounds', $scope.map);
 */
 google.maps.event.addDomListener(from, 'keydown', function(e) {
-    console.log('keydown!')
+    //console.log('keydown!')
     if (e.keyCode == 13 && $('.pac-container:visible').length) {
         e.preventDefault();
     }
 });
         google.maps.event.trigger(to, 'keydown', function(e) {
-            console.log(e.keyCode);
+            //console.log(e.keyCode);
             if(e.keyCode===13 && !e.triggered){
                 google.maps.event.trigger(this,'keydown',{keyCode:40})
                 google.maps.event.trigger(this,'keydown',{keyCode:13,triggered:true})
