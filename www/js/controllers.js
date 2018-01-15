@@ -740,7 +740,7 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
     $state.go('tab.map');
 })
 
-.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state, $ionicSideMenuDelegate, $ionicNavBarDelegate, $ionicHistory, $rootScope, $interval, PromotionService, AccountService, $timeout) {
+.controller('LoginCtrl', function($scope, LoginService, $ionicPopup, $state, $ionicSideMenuDelegate, $ionicNavBarDelegate, $ionicHistory, $rootScope, $interval, PromotionService, AccountService, $timeout, $ionicLoading) {
     //$ionicSideMenuDelegate.canDragContent(false);
     $ionicNavBarDelegate.showBackButton(false);
     $scope.data = {};
