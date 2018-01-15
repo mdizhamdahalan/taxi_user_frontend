@@ -138,7 +138,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $timeout, $interval, RequestService, $ionicPopup, ionicTimePicker, ionicDatePicker, $ionicLoading, $ionicNavBarDelegate) {
-    $ionicNavBarDelegate.showBackButton(false);
+    //$ionicNavBarDelegate.showBackButton(false);
     navIcons = document.getElementsByClassName("ion-navicon");
     for (i = 0; i < navIcons.length; i++) {
         navIcons[i].classList.remove("ng-hide");
