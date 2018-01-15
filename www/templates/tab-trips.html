@@ -1,4 +1,9 @@
 <ion-view view-title="Mua chuyến">
+  <ion-nav-buttons side="right">
+    <button class="reloadbutton button button-clear button-positive" ng-click="refreshItems()">
+        Refresh
+    </button>
+  </ion-nav-buttons>
   <ion-content>
     <div class="list-others">
       <a ng-click="view({{oneTrip.id}})" class="item item-remove-animate trip-item item-avatar" ng-repeat="oneTrip in trips" type="item-text-wrap">

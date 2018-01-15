@@ -14,7 +14,10 @@ angular.module('starter.controllers', [])
         return false;
     }
     else{
-	for (i = 0; i < navIcons.length; i++) navIcons[i].classList.remove("ng-hide");
+	for (i = 0; i < navIcons.length; i++) {
+        navIcons[i].classList.remove("ng-hide");
+        navIcons[i].classList.remove("hide");
+    }
             $scope.reload = function() {
                 // Your refresh code
                 $rootScope.$emit('refreshedPressed');
@@ -137,7 +140,10 @@ angular.module('starter.controllers', [])
 .controller('MapCtrl', function($scope, $state, $cordovaGeolocation, $timeout, $interval, RequestService, $ionicPopup, ionicTimePicker, ionicDatePicker, $ionicLoading, $ionicNavBarDelegate) {
     $ionicNavBarDelegate.showBackButton(false);
     navIcons = document.getElementsByClassName("ion-navicon");
-    for (i = 0; i < navIcons.length; i++) navIcons[i].classList.remove("ng-hide");
+    for (i = 0; i < navIcons.length; i++) {
+        navIcons[i].classList.remove("ng-hide");
+        navIcons[i].classList.remove("hide");
+    }
     
     var options = {timeout: 10000, enableHighAccuracy: true};
     markerArray = [];
@@ -748,7 +754,10 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
                 $ionicSideMenuDelegate.canDragContent(true);
                 //$ionicNavBarDelegate.showBackButton(true);
                 navIcons = document.getElementsByClassName("ion-navicon");
-                for (i = 0; i < navIcons.length; i++) navIcons[i].classList.remove("ng-hide");
+                for (i = 0; i < navIcons.length; i++) {
+                    navIcons[i].classList.remove("ng-hide");
+                    navIcons[i].classList.remove("hide");
+                }
 
                 $state.go('tab.map');
             }
@@ -788,7 +797,10 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
                 //document.getElementsByTagName("coin")[0].innerHTML = userData.coin+"k";
 
                 navIcons = document.getElementsByClassName("ion-navicon");
-                for (i = 0; i < navIcons.length; i++) navIcons[i].classList.remove("ng-hide");
+                for (i = 0; i < navIcons.length; i++) {
+                    navIcons[i].classList.remove("ng-hide");
+                    navIcons[i].classList.remove("hide");
+                }
 
                 $state.go('tab.login');
             }
