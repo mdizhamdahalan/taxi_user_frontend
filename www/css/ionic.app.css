@@ -16,7 +16,9 @@ $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
 ion-nav-view *{font-size:14px;*color:#404d97;font-family:"-apple-system", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif}
-
+.left{float:left}
+.right{float:right}
+.clear,.clearfix{clear:both}
 .scroll {height: 100%;}
 input,.form-control{height:35px;box-shadow:none!important;*border-radius:0;background:#eee!important}
 input:focus,.form-control:focus, input:hover,.form-control:hover{background:#fff!important;border-width:0 0 2px!important;border-bottom-color:#ef473a!important;}

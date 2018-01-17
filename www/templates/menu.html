@@ -17,7 +17,8 @@
         <ion-content>
             <ion-list>
 		        <ion-item id="menu_account" menu-close href="#/tab/account">
-                    Tài khoản: <info id="menu_user_info" class="left">{{userData.username}}</info></br>
+                    <span class="left">Tài khoản:</span> <info id="menu_user_info" class="right">{{userData.username}}</info>
+                    <div class="clear"></div>
                 </ion-item>
                 <ion-item menu-close href="#/tab/map">
                     Đặt chuyến
@@ -32,7 +33,7 @@
 		            Lịch sử đặt chuyến
                 </ion-item>
 		        <ion-item id="menu_promo" menu-close  href="#/tab/noti">
-		            Thông báo khuyến mãi <b><span id="menu_promo_count" style="color: red;">[{{promotions_total}}]<span></b>
+		            Thông báo khuyến mãi <b style="color: red;">[<span id="menu_promo_count">{{promotions_total}}<span>]</b>
                 </ion-item>
                 <ion-item id="menu_logout" menu-close href="#/tab/logout">
                     Thoát
