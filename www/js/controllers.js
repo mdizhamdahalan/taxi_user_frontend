@@ -49,7 +49,9 @@ angular.module('starter.controllers', [])
 
 	        $scope.theIntervalCheckAccount = $interval(function() {
                 if (userData) {
-                    AccountService.getUserData(userData.id);
+                    AccountService.getUserData(userData.id).then(function (response) {
+                        document.getElementById('menu_user_info').innerHTML = response.username;
+                    });
                     $scope.log = 'Thoát';
                     $scope.link = "#tab/logout";
                     $scope.hide = "undefined";
@@ -59,6 +61,7 @@ angular.module('starter.controllers', [])
 	        PromotionService.getAll(userData.id).then(function(response) {
                 $timeout(function() {
                     $scope.promotions_total = response.total;
+                    document.getElementById('menu_promo_count').innerHTML = response.total;
 
                     $ionicLoading.hide();
                 }, 1000);
@@ -800,16 +803,19 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
 
                 $scope.theIntervalCheckAccount = null;
                 $scope.theIntervalCheckAccount = $interval(function(){
-                    AccountService.getUserData(userData.id);
+                    AccountService.getUserData(userData.id).then(function (response) {
+                        document.getElementById('menu_user_info').innerHTML = response.username;
+                    });
                     $scope.log = 'Thoát';
                     $scope.link = "#tab/logout";
                     $scope.hide = "undefined";
                 }.bind(this), 1000);
-    
+
                 PromotionService.getAll(userData.id).then(function(response) {
                     $timeout(function() {
                         $scope.promotions_total = response.total;
-    
+                        document.getElementById('menu_promo_count').innerHTML = response.total;
+
                         $ionicLoading.hide();
                     }, 1000);
                 });

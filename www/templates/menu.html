@@ -16,8 +16,8 @@
         </ion-header-bar>
         <ion-content>
             <ion-list>
-		<ion-item ng-show="{{hide == uuuuu}}" menu-close href="#/tab/account">
-                    <info class="left">Tài khoản: {{userData.username}}</info></br>
+		        <ion-item id="menu_account" menu-close href="#/tab/account">
+                    Tài khoản: <info id="menu_user_info" class="left">{{userData.username}}</info></br>
                 </ion-item>
                 <ion-item menu-close href="#/tab/map">
                     Đặt chuyến
@@ -25,27 +25,27 @@
                 <ion-item menu-close href="#/tab/tableprice">
                     Bảng giá
                 </ion-item>
-	        <ion-item menu-close href="#/tab/info">
+	            <ion-item menu-close href="#/tab/info">
                     Giới thiệu
                 </ion-item>
-		<ion-item id="menu_hist" menu-close href="#/tab/bookhistory">
-		    Lịch sử đặt chuyến
+		        <ion-item id="menu_hist" menu-close href="#/tab/bookhistory">
+		            Lịch sử đặt chuyến
                 </ion-item>
-		<ion-item id="menu_promo" menu-close  href="#/tab/noti">
-		    Thông báo khuyến mãi <span style="color: red;"> <b>[{{promotions_total}}]</b> <span>
-		</ion-item>
-		<ion-item id="menu_logout" menu-close href="#/tab/logout">
-            Thoát
-        </ion-item>
-		<ion-item menu-close class="hidden hide ng-hide" href="{{link}}">
+		        <ion-item id="menu_promo" menu-close  href="#/tab/noti">
+		            Thông báo khuyến mãi <b><span id="menu_promo_count" style="color: red;">[{{promotions_total}}]<span></b>
+                </ion-item>
+                <ion-item id="menu_logout" menu-close href="#/tab/logout">
+                    Thoát
+                </ion-item>
+                <ion-item menu-close class="hidden hide ng-hide" href="{{link}}">
                     {{log}}
-        </ion-item>
-		<ion-item id="menu_login" menu-close href="#/tab/login">
-            Đăng nhập
-        </ion-item>
-		<ion-item id="menu_reg" menu-close href="#/tab/register">
-            Đăng ký
-        </ion-item>
+                </ion-item>
+                <ion-item id="menu_login" menu-close href="#/tab/login">
+                    Đăng nhập
+                </ion-item>
+                <ion-item id="menu_reg" menu-close href="#/tab/register">
+                    Đăng ký
+                </ion-item>
 
             </ion-list>
 	    </br>
