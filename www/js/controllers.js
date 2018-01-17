@@ -25,6 +25,7 @@ angular.module('starter.controllers', [])
             document.getElementById('menu_hist').classList.add('hide');
             document.getElementById('menu_promo').classList.add('hide');
             document.getElementById('menu_logout').classList.add('hide');
+            document.getElementById('menu_account').classList.add('hide');
             document.getElementById('menu_reg').classList.remove('hide');
             document.getElementById('menu_login').classList.remove('hide');
         
@@ -44,6 +45,7 @@ angular.module('starter.controllers', [])
             document.getElementById('menu_hist').classList.remove('hide');
             document.getElementById('menu_promo').classList.remove('hide');
             document.getElementById('menu_logout').classList.remove('hide');
+            document.getElementById('menu_account').classList.remove('hide');
             document.getElementById('menu_reg').classList.add('hide');
             document.getElementById('menu_login').classList.add('hide');
 
@@ -756,6 +758,7 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
     document.getElementById('menu_hist').classList.add('hide');
     document.getElementById('menu_promo').classList.add('hide');
     document.getElementById('menu_logout').classList.add('hide');
+    document.getElementById('menu_account').classList.add('hide');
     document.getElementById('menu_reg').classList.remove('hide');
     document.getElementById('menu_login').classList.remove('hide');
 
@@ -823,6 +826,7 @@ google.maps.event.addDomListener(from, 'keydown', function(e) {
                 document.getElementById('menu_hist').classList.remove('hide');
                 document.getElementById('menu_promo').classList.remove('hide');
                 document.getElementById('menu_logout').classList.remove('hide');
+                document.getElementById('menu_account').classList.remove('hide');
                 document.getElementById('menu_reg').classList.add('hide');
                 document.getElementById('menu_login').classList.add('hide');
 
